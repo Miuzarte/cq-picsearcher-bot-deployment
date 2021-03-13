@@ -19,14 +19,14 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    For CentOS: `yum install wget && yum install git && yum install screen`
 
-### 1. 部署go-cqhttp[^不以任何版本为例]
+### 1. 部署go-cqhttp
 
 0. 新建窗口
 
    `screen -S qq`
 
 1. 访问go-cqhttp的__[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)__页面获取最新版本
-    右键go-cqhttp-(version)-linux-__amd64__ ~~or go-cqhttp-(version)-linux-__amd64__.tar.gz~~复制下载链接
+    右键go-cqhttp-(version)-linux-**amd64** ~~or go-cqhttp-(version)-linux-**amd64**.tar.gz~~复制下载链接
     后者需解压,可👴懒得教tar命令怎么用
     `mkdir go-cqhttp && cd go-cqhttp && wget [粘贴链接] && mv go-cqhttp-(version)-linux-amd64 go-cqhttp && chmod -R 744 ./go-cqhttp`
 
@@ -47,7 +47,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
     此时程序会自动生成虚拟设备信息,不用理会
     根据命令行输出的提示去验证登录QQ
 
-5. 完事退出窗口,go-cqhttp__留在后台__
+5. 完事退出窗口,go-cqhttp**留在后台**
     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
 ### 2. 部署cq-picsearch-bot
@@ -104,7 +104,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 &nbsp;
 
-## 一些部署之后的事情[^保姆级,全写一条里了]
+## 一些部署之后的事情
 
 ### 0. 重启之后如何重新运行?
 
@@ -116,9 +116,9 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​		<kbd>Ctrl</kbd> + <kbd>C</kbd>
 
-​		访问go-cqhttp的__[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)__页面获取最新版本
+​		访问go-cqhttp的**[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)**页面获取最新版本
 
-​		右键go-cqhttp-(version)-linux-__amd64__复制下载链接
+​		右键go-cqhttp-(version)-linux-**amd64**复制下载链接
 
 ​		`rm -rf ./go-cqhttp && wget [粘贴链接] && mv go-cqhttp-(version)-linux-amd64 go-cqhttp && chmod -R 744 ./go-cqhttp && ./go-cqhttp faststart`
 
@@ -136,11 +136,11 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ### go-cqhttp: 
 
-__[[github]](https://github.com/Mrs4s/go-cqhttp) [[wiki]](https://docs.go-cqhttp.org/guide/)__
+**[[github]](https://github.com/Mrs4s/go-cqhttp) [[wiki]](https://docs.go-cqhttp.org/guide/)**
 
 ### cq-picsearch-bot: 
 
-__[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki)__
+**[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki)**
 
 &nbsp;
 
@@ -154,23 +154,10 @@ __(我只是做个推荐,爱用什么看你)__
 
 ### 文件管理类:
 
-1. __Finalshell__ on Windows [^支持自动上传编辑后的文件]
-2. __x-plore__ on Android [^支持直接编辑文件]
+1. __Finalshell__ on Windows
+2. __x-plore__ on Android
 
 ### 编辑类:
-1. __Microsoft Visual Studio Code__ on Windows [^这玩意还要吹?]
-2. __MT管理器2__ on Android [^够用]
-
-&nbsp;
-
-__(什么,你用iOS的?私密马赛,是我不配推荐)__
-
-&nbsp;
-
-[^不以任何版本为例]: 所以说你要自己粘贴链接
-[^保姆级,全写一条里了]: 什么?出问题了?那你拆开输试试咯
-[^支持自动上传编辑后的文件]: 在vsc中编辑完毕后保存,会自动上传更新后的文件至服务器
-[^支持直接编辑文件]: 不能有其他应用关联了要编辑文件的格式,否则可能仍需要下载到本地编辑后再手动上传
-[^这玩意还要吹?]: 谁用notepad++谁死妈
-[^够用]: 真的只是够用
+1. __Microsoft Visual Studio Code__ on Windows
+2. __MT管理器2__ on Android
 
