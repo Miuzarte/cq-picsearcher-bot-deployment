@@ -25,9 +25,12 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    `screen -S qq`
 
-1. 访问go-cqhttp的__[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)__页面获取最新版本
+1. 访问go-cqhttp的[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)页面获取最新版本
+
     右键go-cqhttp-(version)-linux-**amd64** ~~or go-cqhttp-(version)-linux-**amd64**.tar.gz~~复制下载链接
+    
     后者需解压,可👴懒得教tar命令怎么用
+    
     `mkdir go-cqhttp && cd go-cqhttp && wget [粘贴链接] && mv go-cqhttp-(version)-linux-amd64 go-cqhttp && chmod -R 744 ./go-cqhttp`
 
     __*(version)自己改__
@@ -35,19 +38,25 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
     __*分不清 arm/arm64 和 i386/amd64 的建议给群友发个红包然后去问__
 
 2. 运行一遍使其生成默认配置文件
+
     `./go-cqhttp faststart`
 
 3. 编辑生成的`config.hjson`
+
     根据注释填写QQ号与QQ密码,部署在公网服务器建议设置__访问密钥__`access_token`
 
     __*尤其是开放了所有端口的服务器__
 
 4. 再次运行go-cqhttp
+
     `./go-cqhttp faststart`
+    
     此时程序会自动生成虚拟设备信息,不用理会
+    
     根据命令行输出的提示去验证登录QQ
 
 5. 完事退出窗口,go-cqhttp**留在后台**
+
     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
 ### 2. 部署cq-picsearch-bot
@@ -116,7 +125,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​		<kbd>Ctrl</kbd> + <kbd>C</kbd>
 
-​		访问go-cqhttp的**[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)**页面获取最新版本
+​		访问go-cqhttp的[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)页面获取最新版本
 
 ​		右键go-cqhttp-(version)-linux-**amd64**复制下载链接
 
