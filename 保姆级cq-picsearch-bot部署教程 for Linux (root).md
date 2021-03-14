@@ -139,11 +139,11 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​		`cd cq-picsearch-bot ; npm stop && git fetch --all && git reset --hard origin/master && git pull && npm start`
 
-		配置文件方面,不建议cp覆盖后重写
+​		配置文件方面,不建议cp覆盖后重写
 
-		访问cq-picsearch-bot的[[commits]](https://github.com/Tsuk1ko/cq-picsearcher-bot/commits/master)页面,点击最新的commit,将'config.default.jsonc'中新增(绿色高亮)的部分(如果有的话)复制粘贴去本地的'config.jsonc'
+​		访问cq-picsearch-bot的[[commits]](https://github.com/Tsuk1ko/cq-picsearcher-bot/commits/master)页面,点击最新的commit,将'config.default.jsonc'中新增(绿色高亮)的部分(如果有的话)复制粘贴去本地的'config.jsonc'
 
-		**根据上下文去粘贴** ~~虽然必要性不大但这是保姆级教程（（（~~
+​		**根据上下文去粘贴**
 
 &nbsp;
 
