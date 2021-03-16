@@ -15,9 +15,9 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 1. 安装
 
-   For Ubuntu: `apt install wget && apt install git && apt install screen`
+   For Ubuntu: `apt install wget git screen`
 
-   For CentOS: `yum install wget && yum install git && yum install screen`
+   For CentOS: `yum install wget git screen`
 
 ### 1. 部署go-cqhttp
 
@@ -27,15 +27,17 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 1. 访问go-cqhttp的[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)页面获取最新版本
 
-    右键go-cqhttp-(version)-linux-**amd64** ~~or go-cqhttp-(version)-linux-**amd64**.tar.gz~~复制下载链接
+    右键 go-cqhttp-(version)-linux-**amd64** 复制下载链接
     
-    后者需解压,可👴懒得教tar命令怎么用
+    __*一般服务器架构都为amd64(x86),树莓派,安卓手机等设备下载arm64__
     
-    `mkdir go-cqhttp && cd go-cqhttp && wget [粘贴链接] && mv go-cqhttp-(version)-linux-amd64 go-cqhttp && chmod -R 744 ./go-cqhttp`
-
-    __*(version)自己改__
-
-    __*分不清 arm/arm64 和 i386/amd64 的建议给群友发个红包然后去问__
+    `mkdir go-cqhttp && cd go-cqhttp`
+    
+    `wget [粘贴链接]`
+    
+    `mv go-cqhttp-[tab补全] go-cqhttp`
+    
+    `chmod -R 744 ./go-cqhttp`
 
 2. 运行一遍使其生成默认配置文件
 
@@ -43,9 +45,9 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 3. 编辑生成的`config.hjson`
 
-    根据注释填写QQ号与QQ密码,__部署在公网服务器建议设置访问密钥`access_token`__
+    根据注释填写QQ号与QQ密码,__QQ号不需要引号,QQ密码需要__,其余保持默认
 
-    __*尤其是开放了所有端口的服务器__
+    __*部署在公网服务器建议设置访问密钥`access_token`,尤其是开放了所有端口的服务器__
 
 4. 再次运行go-cqhttp
 
@@ -117,7 +119,13 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ### 0. 重启之后如何重新运行?
 
-​		建议往上看看,找找`reboot`
+​     `screen -S qq`
+
+      `cd go-cqhttp && ./go-cqhttp faststart`
+
+      <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
+
+      `cd cq-picsearch-bot && npm start`
 
 ### 1. 更新go-cqhttp
 
@@ -129,9 +137,13 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​		右键go-cqhttp-(version)-linux-**amd64**复制下载链接
 
-​		`rm -rf ./go-cqhttp && wget [粘贴链接] && mv go-cqhttp-(version)-linux-amd64 go-cqhttp && chmod -R 744 ./go-cqhttp && ./go-cqhttp faststart`
+​		`rm -rf ./go-cqhttp && wget [粘贴链接] `
 
-​		<kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
+​     `mv go-cqhttp-[tab补全] go-cqhttp`
+
+​     `chmod -R 744 ./go-cqhttp && ./go-cqhttp faststart`
+
+​     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
 ### 2. 更新cq-picsearch-bot
 
@@ -143,7 +155,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​		访问cq-picsearch-bot的[[commits]](https://github.com/Tsuk1ko/cq-picsearcher-bot/commits/master)页面,点击最新的commit,将'config.default.jsonc'中新增(绿色高亮)的部分(如果有的话)复制粘贴去本地的'config.jsonc'
 
-​		**根据上下文去粘贴**
+​		__*根据上下文去粘贴__
 
 &nbsp;
 
