@@ -63,7 +63,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 ### 2. 部署cq-picsearch-bot
 
-1.  安装nodejs
+1. 安装nodejs
 
    For Ubuntu: `apt install nodejs`
 
@@ -71,7 +71,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    确保版本号\>=10.16.0 (大多数情况下不会低于)
 
-2.  获取cq-picsearch-bot项目,默认最新版本
+2. 获取cq-picsearch-bot项目,默认最新版本
 
    `git clone https://github.com/Tsuk1ko/cq-picsearcher-bot && cd cq-picsearcher-bot && cp config.default.jsonc config.jsonc`
 
@@ -119,13 +119,13 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ### 0. 重启之后如何重新运行?
 
-​     `screen -S qq`
+​    `screen -S qq`
 
-      `cd go-cqhttp && ./go-cqhttp faststart`
+​     `cd go-cqhttp && ./go-cqhttp faststart`
 
-      <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
+​     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
-      `cd cq-picsearch-bot && npm start`
+​     `cd cq-picsearch-bot && npm start`
 
 ### 1. 更新go-cqhttp
 
