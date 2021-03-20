@@ -75,15 +75,24 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    `git clone https://github.com/Tsuk1ko/cq-picsearcher-bot && cd cq-picsearcher-bot && cp config.default.jsonc config.jsonc`
 
-3. 安装依赖
+3. 安装依赖[[参考原作者部署流程]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki/%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B#3-%E9%83%A8%E7%BD%B2%E6%9C%AC%E9%A1%B9%E7%9B%AE)
 
    * 服务器在海外等网络正常的情况下,直接安装
 
      `npm i`
 
+     更推荐使用yarn
+
+     `npm i -g yarn && yarn`
+
    * 服务器在国内网络不正常的情况下,使用淘宝(阿里)源安装
 
      `npm config set registry https://registry.npm.taobao.org --global && npm config set disturl https://npm.taobao.org/dist --global && npm i`
+
+     yarn
+
+     `npm i -g yarn --registry=https://registry.npm.taobao.org && yarn config set registry https://registry.npm.taobao.org --global && yarn config set disturl https://npm.taobao.org/dist --global && yarn`
+
 
 4. 编辑`config.jsonc`
 
