@@ -1,4 +1,7 @@
 # 保姆级cq-picsearch-bot部署运行教程 for Linux (root)
+## 倒是没在centos7/8以外的系统成功部署过,要跟着做建议用centos
+### __比如Ubuntu,apt了nodejs和npm还是跑不起来(__
+
 __（听话,从<u>根目录</u>开始）__
 
 __看完一遍再动手 看完一遍再动手 看完一遍再动手__
