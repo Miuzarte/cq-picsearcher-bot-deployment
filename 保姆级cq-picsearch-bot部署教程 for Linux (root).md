@@ -1,4 +1,4 @@
-# 保姆级cq-picsearch-bot部署运行教程 for Linux (root)
+# 保姆级cq-picsearcher-bot部署运行教程 for Linux (root)
 ## 倒是没在centos7/8以外的系统成功部署过,要跟着做建议用centos
 ### __比如Ubuntu,apt了nodejs和npm还是跑不起来(__
 
@@ -18,9 +18,9 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 1. 安装
 
-   For Ubuntu: `apt install wget git screen`
-
    For CentOS: `yum install wget git screen`
+
+   For Ubuntu: `apt install wget git screen`
 
 ### 1. 部署go-cqhttp
 
@@ -64,17 +64,17 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
-### 2. 部署cq-picsearch-bot
+### 2. 部署cq-picsearcher-bot
 
 1. 安装nodejs
 
-   For Ubuntu: `apt install nodejs`
-
    For CentOS: `yum install nodejs`
+
+   For Ubuntu: `apt install nodejs`
 
    确保版本号\>=10.16.0 (大多数情况下不会低于)
 
-2. 获取cq-picsearch-bot项目,默认最新版本
+2. 获取cq-picsearcher-bot项目,默认最新版本
 
    `git clone https://github.com/Tsuk1ko/cq-picsearcher-bot && cd cq-picsearcher-bot && cp config.default.jsonc config.jsonc`
 
@@ -107,7 +107,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    部分需要特别注意的在这: __[[配置文件说明]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E)__
 
-5. 运行cq-picsearch-bot
+5. 运行cq-picsearcher-bot
 
    `npm start`
 
@@ -121,7 +121,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    再<kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
-   最后`cd cq-picsearch-bot && npm start`
+   最后`cd cq-picsearcher-bot && npm start`
 
 __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot的[[wiki]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki),本文只负责教你部署运行__
 
@@ -137,7 +137,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
-​     `cd cq-picsearch-bot && npm start`
+​     `cd cq-picsearcher-bot && npm start`
 
 ### 1. 更新go-cqhttp
 
@@ -157,15 +157,15 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
-### 2. 更新cq-picsearch-bot
+### 2. 更新cq-picsearcher-bot
 
 ​		__默认每24小时间检查一次更新,有更新会推送至管理员账号__
 
-​		`cd cq-picsearch-bot ; npm stop && git fetch --all && git reset --hard origin/master && git pull && npm start`
+​		`cd cq-picsearcher-bot ; npm stop && git fetch --all && git reset --hard origin/master && git pull && npm start`
 
 ​		配置文件方面,不建议cp覆盖后重写
 
-​		访问cq-picsearch-bot的[[commits]](https://github.com/Tsuk1ko/cq-picsearcher-bot/commits/master)页面,点击最新的commit,将'config.default.jsonc'中新增(绿色高亮)的部分(如果有的话)复制粘贴去本地的'config.jsonc'
+​		访问cq-picsearcher-bot的[[commits]](https://github.com/Tsuk1ko/cq-picsearcher-bot/commits/master)页面,点击最新的commit,将'config.default.jsonc'中新增(绿色高亮)的部分(如果有的话)复制粘贴去本地的'config.jsonc'
 
 ​		__*根据上下文去粘贴__
 
@@ -177,7 +177,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 **[[github]](https://github.com/Mrs4s/go-cqhttp) [[wiki]](https://docs.go-cqhttp.org/guide/)**
 
-### cq-picsearch-bot: 
+### cq-picsearcher-bot: 
 
 **[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki)**
 
