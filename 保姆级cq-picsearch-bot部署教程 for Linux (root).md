@@ -1,6 +1,4 @@
 # 保姆级cq-picsearcher-bot部署运行教程 for Linux (root)
-## 倒是没在centos7/8以外的系统成功部署过,要跟着做建议用centos
-### __比如Ubuntu,apt了nodejs和npm还是跑不起来(__
 
 __（听话,从<u>根目录</u>开始）__
 
@@ -18,9 +16,9 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 1. 安装
 
-   For CentOS: `yum install wget git screen`
+   For Ubuntu: `apt install -y wget git screen`
 
-   For Ubuntu: `apt install wget git screen`
+   For CentOS: `yum install -y wget git screen`
 
 ### 1. 部署go-cqhttp
 
@@ -38,7 +36,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
     
     `wget [粘贴链接]`
     
-    `mv go-cqhttp-[tab补全] go-cqhttp`
+    `mv go-cqhttp-[tab补全] go-cqhttp` #将可执行文件重命名为go-cqhttp
     
     `chmod -R 744 ./go-cqhttp`
 
@@ -46,9 +44,11 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
     `./go-cqhttp faststart`
 
-3. 编辑生成的`config.hjson`
+3. 编辑生成的`config.yml`
 
     根据注释填写QQ号与QQ密码,__QQ号不需要引号,QQ密码需要__,其余保持默认
+    
+    在第91行,将`#正向ws`的`disable: true`改为`disable: false`
 
     __*部署在公网服务器建议设置访问密钥`access_token`,尤其是开放了所有端口的服务器__
 
@@ -68,11 +68,11 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 1. 安装nodejs
 
-   For CentOS: `yum install nodejs`
+   `curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -`
+   
+   Ubuntu:`apt install -y nodejs`
 
-   For Ubuntu: `apt install nodejs`
-
-   确保版本号\>=10.16.0 (大多数情况下不会低于)
+   CentOS:`yum install -y nodejs`
 
 2. 获取cq-picsearcher-bot项目,默认最新版本
 
@@ -84,26 +84,17 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
      `npm i`
 
-     更推荐使用yarn
-
-     `npm i -g yarn && yarn`
-
    * 服务器在国内网络不正常的情况下,使用淘宝(阿里)源安装
 
      `npm config set registry https://registry.npm.taobao.org --global && npm config set disturl https://npm.taobao.org/dist --global && npm i`
 
-     yarn
-
-     `npm i -g yarn --registry=https://registry.npm.taobao.org && yarn config set registry https://registry.npm.taobao.org --global && yarn config set disturl https://npm.taobao.org/dist --global && yarn`
-
-
 4. 编辑`config.jsonc`
 
-   __go-cqhttp中设置了访问密钥`access_token`的需要在第八行填入__
+   __go-cqhttp中设置了访问密钥`access_token`的需要填入__
 
    __saucenao搜图需要填入api key,在[[这里]](https://saucenao.com/user.php)注册登录之后再到[[这里]](https://saucenao.com/user.php?page=search-api)复制api key__
 
-   其他的照着注释写,不会写的就保持默认,给👴一行一行仔细看好注释
+   其他的照着注释写,不会写的就保持默认,一行一行仔细看好注释
 
    部分需要特别注意的在这: __[[配置文件说明]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E)__
 
@@ -161,7 +152,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​		__默认每24小时间检查一次更新,有更新会推送至管理员账号__
 
-​		`cd cq-picsearcher-bot ; npm stop && git fetch --all && git reset --hard origin/master && git pull && npm start`
+​		`cd cq-picsearcher-bot ; npm stop && git fetch --all && git reset --hard origin/master && git pull && npm i && npm start`
 
 ​		配置文件方面,不建议cp覆盖后重写
 
@@ -189,7 +180,8 @@ __(我只是做个推荐,爱用什么看你)__
 
 ### ssh类:
 1. __Finalshell__ on Windows
-2. __JuiceSSH__ on Android
+2. __Windows Terminal__ on Windows
+3. __JuiceSSH__ on Android
 
 ### 文件管理类:
 
