@@ -1,7 +1,5 @@
 # 保姆级cq-picsearcher-bot部署运行教程 for Linux (root)
 
-__（听话,从<u>根目录</u>开始）__
-
 __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 __看完一遍再动手 看完一遍再动手 看完一遍再动手__
@@ -28,17 +26,19 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 1. 访问go-cqhttp的[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)页面获取最新版本
 
-    右键 go-cqhttp-(version)-linux-**amd64** 复制下载链接
-    
+    右键 go-cqhttp_linux_**amd64**.tar.gz 复制下载链接
+
     __*一般服务器架构都为amd64(x86),树莓派,安卓手机等设备下载arm64__
-    
+
     `mkdir go-cqhttp && cd go-cqhttp`
-    
+
     `wget [粘贴链接]`
-    
-    `mv go-cqhttp-[tab补全] go-cqhttp` #将可执行文件重命名为go-cqhttp
-    
-    `chmod -R 744 ./go-cqhttp`
+
+    ~~什么 下载不了?那你怎么访问的GitHub~~
+
+    `tar -zxvf go-cqhttp_linux_amd64.tar.gz`
+
+    `chmod -R 700 ./go-cqhttp`
 
 2. 运行一遍使其生成默认配置文件
 
@@ -47,7 +47,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 3. 编辑生成的`config.yml`
 
     根据注释填写QQ号与QQ密码,__QQ号不需要引号,QQ密码需要__,其余保持默认
-    
+
     在第91行,将`#正向ws`的`disable: true`改为`disable: false`
 
     __*部署在公网服务器建议设置访问密钥`access_token`,尤其是开放了所有端口的服务器__
@@ -55,9 +55,9 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 4. 再次运行go-cqhttp
 
     `./go-cqhttp faststart`
-    
+
     此时程序会自动生成虚拟设备信息,不用理会
-    
+
     根据命令行输出的提示去验证登录QQ
 
 5. 完事退出窗口,go-cqhttp**留在后台**
@@ -69,7 +69,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 1. 安装nodejs
 
    `curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -`
-   
+
    Ubuntu:`apt install -y nodejs`
 
    CentOS:`yum install -y nodejs`
@@ -138,13 +138,11 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​		访问go-cqhttp的[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)页面获取最新版本
 
-​		右键go-cqhttp-(version)-linux-**amd64**复制下载链接
+​		右键 go-cqhttp_linux_**amd64**.tar.gz 复制下载链接
 
-​		`rm -rf ./go-cqhttp && wget [粘贴链接] `
+​		`wget [粘贴链接]`
 
-​     `mv go-cqhttp-[tab补全] go-cqhttp`
-
-​     `chmod -R 744 ./go-cqhttp && ./go-cqhttp faststart`
+​     `tar -zxvf go-cqhttp_linux_amd64.tar.gz && chmod -R 700 ./go-cqhttp && ./go-cqhttp faststart`
 
 ​     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
@@ -171,6 +169,9 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 ### cq-picsearcher-bot: 
 
 **[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki)**
+
+### node.js
+**[[website]](http://nodejs.cn/) [[wiki]](http://nodejs.cn/learn)**
 
 &nbsp;
 
