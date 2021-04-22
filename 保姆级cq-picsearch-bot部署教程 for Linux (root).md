@@ -70,10 +70,6 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    `curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -`
 
-   Ubuntu:`apt install -y nodejs`
-
-   CentOS:`yum install -y nodejs`
-
 2. 获取cq-picsearcher-bot项目,默认最新版本
 
    `git clone https://github.com/Tsuk1ko/cq-picsearcher-bot && cd cq-picsearcher-bot && cp config.default.jsonc config.jsonc`
