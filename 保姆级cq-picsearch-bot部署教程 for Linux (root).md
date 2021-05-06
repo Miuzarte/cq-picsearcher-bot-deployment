@@ -64,6 +64,12 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
+6. 安装ffmpeg使go-cqhttp可以发送其他格式的`语音`和`短视频`,机器人发送番剧预览视频会用到
+
+   For Ubuntu: `apt install -y ffmpeg`
+
+   For CentOS: `yum install -y ffmpeg`
+
 ### 2. 部署cq-picsearcher-bot
 
 1. 安装nodejs
@@ -146,7 +152,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​		__默认每24小时间检查一次更新,有更新会推送至管理员账号__
 
-​		`cd cq-picsearcher-bot ; npm stop && git fetch --all && git reset --hard origin/master && git pull && npm i && npm start`
+​		`cd cq-picsearcher-bot ; npm stop && git pull && npm i && npm start`
 
 ​		配置文件方面,不建议cp覆盖后重写
 
@@ -176,13 +182,12 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 __(我只是做个推荐,爱用什么看你)__
 
 ### ssh类:
-1. __Finalshell__ on Windows
+1. __Xshell__ on Windows
 2. __Windows Terminal__ on Windows
-3. __JuiceSSH__ on Android
+3. __Termux__ on Android
 
 ### 文件管理类:
-
-1. __Finalshell__ on Windows
+1. __Xftp__ on Windows
 2. __x-plore__ on Android
 
 ### 编辑类:
