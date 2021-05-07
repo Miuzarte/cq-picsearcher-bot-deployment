@@ -64,7 +64,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
-6. 安装ffmpeg使go-cqhttp可以发送其他格式的`语音`和`短视频`,机器人发送番剧预览视频会用到
+6. **(可选)** 安装ffmpeg使go-cqhttp可以发送其他格式的`语音`和`视频`,番剧预览视频发送需要用到
 
    For Ubuntu: `apt install -y ffmpeg`
 
@@ -94,11 +94,9 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    __go-cqhttp中设置了访问密钥`access_token`的需要填入__
 
-   __saucenao搜图需要填入api key,在[[这里]](https://saucenao.com/user.php)注册登录之后再到[[这里]](https://saucenao.com/user.php?page=search-api)复制api key__
+   __saucenao搜图需要填入`saucenaoApiKey`,在[[这里]](https://saucenao.com/user.php)注册登录之后再到[[这里]](https://saucenao.com/user.php?page=search-api)复制api key__
 
    其他的照着注释写,不会写的就保持默认,一行一行仔细看好注释
-
-   部分需要特别注意的在这: __[[配置文件说明]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E)__
 
 5. 运行cq-picsearcher-bot
 
@@ -115,6 +113,12 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
    再<kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
    最后`cd cq-picsearcher-bot && npm start`
+
+6. 安装字体以使用`akhr`明日方舟公招计算功能
+
+   下载[Adobe思源黑体](https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansCN.zip)
+
+   解压并将其中的`SourceHanSansCN-Bold.otf`放入服务器中的`/usr/share/fonts`
 
 __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot的[[wiki]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki),本文只负责教你部署运行__
 
