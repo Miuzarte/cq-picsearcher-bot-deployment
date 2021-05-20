@@ -18,4 +18,6 @@ __[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://git
 
 你问为什么没有一键脚本? 因为~~我不会~~在部署过程中你能学到东西啊!
 
+随手写的垃圾居然有4颗⭐️⭐️，可恶 被看得起了
+
 
