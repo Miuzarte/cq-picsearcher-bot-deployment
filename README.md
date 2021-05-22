@@ -18,7 +18,7 @@ __[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://git
 
 ~~你问为什么没有一键脚本？ 因为在部署过程中你能学到东西啊！~~
 
-### 现在有了 [[release]](https://github.com/Miuzarte/cq-picsearcher-bot-deployment/releases)
+#### 现在有了 [[release]](https://github.com/Miuzarte/cq-picsearcher-bot-deployment/releases)
 
 只要我还在用这玩意我就会继续更新下去(时间随缘)，理论上是不会停更
 
