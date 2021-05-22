@@ -6,6 +6,8 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
 __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
+__现在脚本是有了 不过也只是作为本文的辅助工具而已 [[release]](https://github.com/Miuzarte/cq-picsearcher-bot-deployment/releases)__
+
 &nbsp;
 
 ## 部署运行
@@ -18,7 +20,7 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    For CentOS: `yum install -y wget git screen`
 
-### 1. 部署go-cqhttp
+### 1. 部署go-cqhttp  (步骤 0-2,4-5 包含于开头提到的脚本当中)
 
 0. 新建窗口
 
@@ -70,11 +72,13 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    For CentOS: `yum install -y ffmpeg`
 
-### 2. 部署cq-picsearcher-bot
+### 2. 部署cq-picsearcher-bot  (步骤 1-3,5 包含于开头提到的脚本当中)
 
 1. 安装nodejs
 
-   `curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -`
+   For Ubuntu: `curl -fsSL https://deb.nodesource.com/setup_14.x | bash -`
+
+   For CentOS: `curl -fsSL https://rpm.nodesource.com/setup_14.x | bash -`
 
 2. 获取cq-picsearcher-bot项目,默认最新版本
 
@@ -114,19 +118,13 @@ __看完一遍再动手 看完一遍再动手 看完一遍再动手__
 
    最后`cd cq-picsearcher-bot && npm start`
 
-6. 安装字体以使用`akhr`明日方舟公招计算功能
-
-   下载[Adobe思源黑体](https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansCN.zip)
-
-   解压并将其中的`SourceHanSansCN-Bold.otf`放入服务器中的`/usr/share/fonts`
-
 __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot的[[wiki]](https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki),本文只负责教你部署运行__
 
 &nbsp;
 
 ## 一些部署之后的事情
 
-### 0. 重启之后如何重新运行?
+### 0. 重启之后如何重新运行?  (脚本里有)
 
 ​    `screen -S qq`
 
@@ -136,7 +134,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​     `cd cq-picsearcher-bot && npm start`
 
-### 1. 更新go-cqhttp
+### 1. 更新go-cqhttp  (这个没有)
 
 ​		`screen -r qq`
 
@@ -152,7 +150,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
-### 2. 更新cq-picsearcher-bot
+### 2. 更新cq-picsearcher-bot  (这个有)
 
 ​		__默认每24小时间检查一次更新,有更新会推送至管理员账号__
 
