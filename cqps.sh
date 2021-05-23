@@ -22,28 +22,28 @@ BCYAN="\033[96m"        #亮青色${BCYAN}
 BWHITE="\033[97m"       #亮灰色${BWHITE}
 shloc=$(cd `dirname $0`; pwd)   #脚本所在绝对路径 ${shloc}
 
-clear
-echo -e "${BRED}------------------------------------------------${PLAIN}"
-echo -e "cq-picsearcher-bot 不算懒人脚本"
-echo -e "更新时间 2021/05/22-Sat"
-echo -e "这个垃圾脚本需要的注意事项:"
-echo -e "大部分操作还是需要阅读我之前写的部署教程"
-echo -e "https://github.com/Miuzarte/cq-picsearcher-bot-deployment/blob/main/%E4%BF%9D%E5%A7%86%E7%BA%A7cq-picsearch-bot%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%20for%20Linux%20(root).md"
-echo -e "go-cqhttp/文件夹会生成在脚本的当前目录"
-echo -e "cq-picsearcher-bot/文件夹会生成在脚本的当前目录"
-echo -e "自启动如果写入crontab -e失败也不会报错"
-echo -e "自启动用的全是crontab -e @reboot"
-echo -e "执行部署CQPSor更新CQPS之后设定的git镜像站不会恢复"
-echo -e "${BRED}------------------------------------------------${PLAIN}"
-echo -e "${BCYAN}回车继续${PLAIN}"
-read -p ""
+#clear
+#echo -e "${BRED}------------------------------------------------${PLAIN}"
+#echo -e "cq-picsearcher-bot 不算懒人脚本"
+#echo -e "更新时间 2021/05/22-Sat"
+#echo -e "这个垃圾脚本需要的注意事项:"
+#echo -e "大部分操作还是需要阅读我之前写的部署教程"
+#echo -e "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
+#echo -e "go-cqhttp/文件夹会生成在脚本的当前目录"
+#echo -e "cq-picsearcher-bot/文件夹会生成在脚本的当前目录"
+#echo -e "自启动如果写入crontab -e失败也不会报错"
+#echo -e "自启动用的全是crontab -e @reboot"
+#echo -e "执行部署CQPSor更新CQPS之后设定的git镜像站不会恢复"
+#echo -e "${BRED}------------------------------------------------${PLAIN}"
+#echo -e "${BCYAN}回车继续${PLAIN}"
+#read -p ""
 clear
 echo -e "------------------------------------------------"
 echo -e "cq-picsearcher-bot 懒人脚本"
-echo -e "更新时间 2021/05/22-Sat"
+echo -e "更新时间 2021/05/23-Sun"
 echo -e "这个垃圾脚本需要的注意事项:"
 echo -e "大部分操作还是需要阅读我之前写的部署教程"
-echo -e "https://github.com/Miuzarte/cq-picsearcher-bot-deployment/blob/main/%E4%BF%9D%E5%A7%86%E7%BA%A7cq-picsearch-bot%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%20for%20Linux%20(root).md"
+echo -e "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
 echo -e "go-cqhttp/文件夹会生成在脚本的当前目录"
 echo -e "cq-picsearcher-bot/文件夹会生成在脚本的当前目录"
 echo -e "自启动如果写入crontab -e失败也不会报错"
@@ -73,6 +73,7 @@ echo -e "------------------------------------------------"
 echo -e "  ${BCYAN}15.  ${PLAIN}显示项目信息${PLAIN}"
 echo -e ""
 read -p "请选择：" choose
+time=$(date "+%Y年%m月%d日的%H时%M分%S秒")
 
 case $choose in
     1)
@@ -125,11 +126,13 @@ case $choose in
     ;;
     4)
     #启动CQPS
+        clear
         cd "${shloc}/cq-picsearcher-bot/"
         npm start
     ;;
     5)
     #关闭CQPS
+        clear
         cd "${shloc}/cq-picsearcher-bot/"
         npm stop
     ;;
@@ -209,6 +212,8 @@ case $choose in
         cd "${shloc}/cq-picsearcher-bot/"
         npm stop
         git config --global https.https://github.com.proxy url."https://github.com.cnpmjs.org/".insteadOf https://github.com/
+        git fetch --all
+        git reset --hard origin/master
         git pull
         npm start
     ;;
@@ -290,13 +295,16 @@ case $choose in
                 yarn
             ;;
             *)
-                echo -e
-                echo -e 你选择了"$choose"
-                echo -e
-                echo -e "${BRED}????????????????${PLAIN}"
-                echo -e "${BGREEN}????????????????${PLAIN}"
-                echo -e "${BBLUE}????????????????${PLAIN}"
-                echo -e
+                echo -e ""
+                echo -e "你选择了${choose}"
+                sleep 2s
+                echo -e "?"
+                echo -e "选的啥啊这"
+                echo -e "默认安装阿里镜像"
+                npm i --force -g yarn --registry=https://registry.npm.taobao.org
+                yarn config set registry https://registry.npm.taobao.org --global
+                yarn config set disturl https://npm.taobao.org/dist --global
+                yarn
             esac
         else
             git clone https://github.com.cnpmjs.org/Tsuk1ko/cq-picsearcher-bot
@@ -321,13 +329,16 @@ case $choose in
                 yarn
             ;;
             *)
-                echo -e
-                echo -e 你选择了"$choose"
-                echo -e
-                echo -e "${BRED}????????????????${PLAIN}"
-                echo -e "${BGREEN}????????????????${PLAIN}"
-                echo -e "${BBLUE}????????????????${PLAIN}"
-                echo -e
+                echo -e ""
+                echo -e "你选择了${choose}"
+                sleep 2s
+                echo -e "?"
+                echo -e "选的啥啊这"
+                echo -e "默认安装阿里镜像"
+                npm i --force -g yarn --registry=https://registry.npm.taobao.org
+                yarn config set registry https://registry.npm.taobao.org --global
+                yarn config set disturl https://npm.taobao.org/dist --global
+                yarn
             esac
         fi
 
@@ -372,13 +383,10 @@ case $choose in
         echo -e ""
     ;;
     *)
-    #你选你妈呢
-        echo -e
-        echo -e 你选择了"$choose"
-        echo -e
-        echo -e "${BRED}????????????????${PLAIN}"
-        echo -e "${BGREEN}????????????????${PLAIN}"
-        echo -e "${BBLUE}????????????????${PLAIN}"
-        echo -e
+    #好选
+        clear
+        echo -e "好 非常好"
+        echo -e "在${time}"
+        echo -e "你在一个只有${BMAGENTA}1-15${PLAIN}的菜单中选择了${BMAGENTA}${choose}${PLAIN}"
     ;;
 esac
