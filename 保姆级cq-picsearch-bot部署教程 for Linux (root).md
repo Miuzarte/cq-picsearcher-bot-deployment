@@ -181,8 +181,6 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ## 推荐的工具
 
-__(我只是做个推荐,爱用什么看你)__
-
 ### ssh类:
 1. __Xshell__ on Windows
 2. __Windows Terminal__ on Windows
@@ -194,5 +192,10 @@ __(我只是做个推荐,爱用什么看你)__
 
 ### 编辑类:
 1. __Microsoft Visual Studio Code__ on Windows
+
+   vsc扩展商店搜索安装`Remote - SSH`和`Remote - SSH: Editing Configuration Files`
+
 2. __MT管理器2__ on Android
+
+   只能说是够用
 
