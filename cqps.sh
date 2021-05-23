@@ -278,9 +278,9 @@ case $choose in
             echo -e "检测到存在${shloc}/cq-picsearcher-bot/文件夹,已备份为${shloc}/cq-picsearcher-bot.old/"
 
             echo -e
-            echo -e "选择yarn镜像源"
-            echo -e "  ${BCYAN}1. 官方镜像(海外)${PLAIN}"
-            echo -e "  ${BCYAN}2. 阿里镜像(大陆)${PLAIN}"
+            echo -e "选择yarn源"
+            echo -e "  ${BCYAN}1. 官方源(海外)${PLAIN}"
+            echo -e "  ${BCYAN}2. 阿里镜像源(大陆)${PLAIN}"
             echo -e
             read -p "请选择：" choose
             case $choose in
@@ -300,7 +300,7 @@ case $choose in
                 sleep 2s
                 echo -e "?"
                 echo -e "选的啥啊这"
-                echo -e "默认安装阿里镜像"
+                echo -e "默认选择阿里镜像源"
                 npm i --force -g yarn --registry=https://registry.npm.taobao.org
                 yarn config set registry https://registry.npm.taobao.org --global
                 yarn config set disturl https://npm.taobao.org/dist --global
@@ -312,9 +312,9 @@ case $choose in
             cd ${shloc}/cq-picsearcher-bot/
 
             echo -e
-            echo -e "选择yarn镜像源"
-            echo -e "  ${BCYAN}1. 官方镜像(海外)${PLAIN}"
-            echo -e "  ${BCYAN}2. 阿里镜像(大陆)${PLAIN}"
+            echo -e "选择yarn源"
+            echo -e "  ${BCYAN}1. 官方源(海外)${PLAIN}"
+            echo -e "  ${BCYAN}2. 阿里镜像源(大陆)${PLAIN}"
             echo -e
             read -p "请选择：" choose
             case $choose in
@@ -334,7 +334,7 @@ case $choose in
                 sleep 2s
                 echo -e "?"
                 echo -e "选的啥啊这"
-                echo -e "默认安装阿里镜像"
+                echo -e "默认选择阿里镜像源"
                 npm i --force -g yarn --registry=https://registry.npm.taobao.org
                 yarn config set registry https://registry.npm.taobao.org --global
                 yarn config set disturl https://npm.taobao.org/dist --global
