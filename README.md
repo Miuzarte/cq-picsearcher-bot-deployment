@@ -22,4 +22,12 @@ __[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://git
 
 只要我还在用这玩意我就会继续更新下去(时间随缘)，理论上是不会停更
 
-随手写的垃圾居然有5颗⭐️，可恶 被看得起了
+随手写的垃圾居然有${stars}颗⭐️，可恶 被看得起了
+
+```bash
+stars=6 #21/05/24
+
+stars=5 #21/05/23
+
+stars=4 #21/05/22
+```
