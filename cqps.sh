@@ -40,7 +40,7 @@ shloc=$(cd `dirname $0`; pwd)   #脚本所在绝对路径 ${shloc}
 clear
 echo -e "------------------------------------------------"
 echo -e "cq-picsearcher-bot 懒人脚本"
-echo -e "更新时间 2021/05/23-Sun"
+echo -e "更新时间 2021/05/24-Mon"
 echo -e "这个垃圾脚本需要的注意事项:"
 echo -e "大部分操作还是需要阅读我之前写的部署教程"
 echo -e "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
@@ -51,26 +51,28 @@ echo -e "自启动用的全是crontab -e @reboot"
 echo -e "执行部署CQPSor更新CQPS之后设定的git镜像站不会恢复"
 echo -e "------------------------------------------------"
 echo -e "  ${BCYAN}1.   ${BGREEN}启动${PLAIN}go-cqhttp${PLAIN}"
-echo -e "  ${BCYAN}2.   ${BRED}关闭${PLAIN}go-cqhttp${PLAIN}"
-echo -e "  ${BCYAN}3.   ${BYELLOW}查看${PLAIN}go-cqhttp${BYELLOW}日志${PLAIN}"
-echo -e "------------------------------------------------"
-echo -e "  ${BCYAN}4.   ${BGREEN}启动${PLAIN}CQPS${PLAIN}"
-echo -e "  ${BCYAN}5.   ${BRED}关闭${PLAIN}CQPS${PLAIN}"
-echo -e "  ${BCYAN}6.   ${BYELLOW}查看${PLAIN}CQPS${BYELLOW}日志${PLAIN}"
-echo -e "------------------------------------------------"
+echo -e "  ${BCYAN}2.   ${BGREEN}启动${PLAIN}CQPS${PLAIN}"
+echo -e "${BBLACK}------------------------------------------------${PLAIN}"
+echo -e "  ${BCYAN}3.   ${BRED}关闭${PLAIN}go-cqhttp${PLAIN}"
+echo -e "  ${BCYAN}4.   ${BRED}关闭${PLAIN}CQPS${PLAIN}"
+echo -e "${BBLACK}------------------------------------------------${PLAIN}"
+echo -e "  ${BCYAN}5.   ${BYELLOW}查看${PLAIN}go-cqhttp${BYELLOW}日志${PLAIN}"
+echo -e "  ${BCYAN}6.   ${BYELLOW}查看${PLAIN}CQPS${BYELLOW}     日志${PLAIN}"
+echo -e "${BBLACK}------------------------------------------------${PLAIN}"
 echo -e "  ${BCYAN}7.   ${BBLUE}设置${PLAIN}go-cqhttp crontab@reboot${BBLUE}自启${PLAIN}"
 echo -e "  ${BCYAN}8.   ${BBLUE}设置${PLAIN}CQPS      crontab@reboot${BBLUE}自启${PLAIN}"
-echo -e "------------------------------------------------"
+echo -e "${BBLACK}------------------------------------------------${PLAIN}"
 echo -e "  ${BCYAN}9.   ${BMAGENTA}更新${PLAIN}go-cqhttp${PLAIN}"
 echo -e "  ${BCYAN}10.  ${BMAGENTA}更新${PLAIN}CQPS${PLAIN}"
-echo -e "------------------------------------------------"
+echo -e "${BBLACK}------------------------------------------------${PLAIN}"
 echo -e "  ${BCYAN}11.  ${BMAGENTA}部署${PLAIN}go-cqhttp${PLAIN}"
 echo -e "  ${BCYAN}12.  ${BMAGENTA}部署${PLAIN}CQPS${PLAIN}"
-echo -e "------------------------------------------------"
+echo -e "${BBLACK}------------------------------------------------${PLAIN}"
 echo -e "  ${BCYAN}13.  ${RED}删除${PLAIN}go-cqhttp${PLAIN}"
 echo -e "  ${BCYAN}14.  ${RED}删除${PLAIN}CQPS${PLAIN}"
-echo -e "------------------------------------------------"
-echo -e "  ${BCYAN}15.  ${PLAIN}显示项目信息${PLAIN}"
+echo -e "${BBLACK}------------------------------------------------${PLAIN}"
+echo -e "  ${BCYAN}15.  ${PLAIN}其他选项${PLAIN}"
+echo -e "  ${BCYAN}16.  ${PLAIN}显示项目信息${PLAIN}"
 echo -e ""
 read -p "请选择：" choose
 time=$(date "+%Y年%m月%d日的%H时%M分%S秒")
@@ -97,6 +99,12 @@ case $choose in
         fi
     ;;
     2)
+    #启动CQPS
+        clear
+        cd "${shloc}/cq-picsearcher-bot/"
+        npm start
+    ;;
+    3)
     #关闭go-cqhttp
         gcst=`ps -ef |grep -w go-cqhttp|grep -v grep|wc -l`
 
@@ -109,7 +117,13 @@ case $choose in
             screen -S gocq -X quit
         fi
     ;;
-    3)
+    4)
+    #关闭CQPS
+        clear
+        cd "${shloc}/cq-picsearcher-bot/"
+        npm stop
+    ;;
+    5)
     #查看go-cqhttp日志
         gcst=`ps -ef |grep -w go-cqhttp|grep -v grep|wc -l`
 
@@ -123,18 +137,6 @@ case $choose in
             read -p ""
             screen -r gocq
         fi
-    ;;
-    4)
-    #启动CQPS
-        clear
-        cd "${shloc}/cq-picsearcher-bot/"
-        npm start
-    ;;
-    5)
-    #关闭CQPS
-        clear
-        cd "${shloc}/cq-picsearcher-bot/"
-        npm stop
     ;;
     6)
     #查看CQPS日志
@@ -263,7 +265,7 @@ case $choose in
             curl -fsSL https://rpm.nodesource.com/setup_14.x | bash -
             yum install -y nodejs
         else
-            echo -e
+            echo -e ""
         fi
 
         #判断是否二次部署
@@ -272,80 +274,79 @@ case $choose in
             test -d "$checkfile"
         then
             mv "${shloc}/cq-picsearcher-bot/" "${shloc}/cq-picsearcher-bot.old/"
-            git clone https://github.com.cnpmjs.org/Tsuk1ko/cq-picsearcher-bot
-            cp ${shloc}/cq-picsearcher-bot/config.default.jsonc ${shloc}/cq-picsearcher-bot/config.jsonc
-            cd ${shloc}/cq-picsearcher-bot/
+            git clone "https://github.com.cnpmjs.org/Tsuk1ko/cq-picsearcher-bot"
+            cp "${shloc}/cq-picsearcher-bot/config.default.jsonc" "${shloc}/cq-picsearcher-bot/config.jsonc"
+            cd "${shloc}/cq-picsearcher-bot/"
             echo -e "检测到存在${shloc}/cq-picsearcher-bot/文件夹,已备份为${shloc}/cq-picsearcher-bot.old/"
-
-            echo -e
-            echo -e "选择yarn源"
-            echo -e "  ${BCYAN}1. 官方源(海外)${PLAIN}"
-            echo -e "  ${BCYAN}2. 阿里镜像源(大陆)${PLAIN}"
-            echo -e
-            read -p "请选择：" choose
-            case $choose in
-            1)
-                npm i --force -g yarn
-                yarn
-            ;;
-            2)
-                npm i --force -g yarn --registry=https://registry.npm.taobao.org
-                yarn config set registry https://registry.npm.taobao.org --global
-                yarn config set disturl https://npm.taobao.org/dist --global
-                yarn
-            ;;
-            *)
-                echo -e ""
-                echo -e "你选择了${choose}"
-                sleep 2s
-                echo -e "?"
-                echo -e "选的啥啊这"
-                echo -e "默认选择阿里镜像源"
-                npm i --force -g yarn --registry=https://registry.npm.taobao.org
-                yarn config set registry https://registry.npm.taobao.org --global
-                yarn config set disturl https://npm.taobao.org/dist --global
-                yarn
-            esac
         else
-            git clone https://github.com.cnpmjs.org/Tsuk1ko/cq-picsearcher-bot
-            cp ${shloc}/cq-picsearcher-bot/config.default.jsonc ${shloc}/cq-picsearcher-bot/config.jsonc
-            cd ${shloc}/cq-picsearcher-bot/
-
-            echo -e
-            echo -e "选择yarn源"
-            echo -e "  ${BCYAN}1. 官方源(海外)${PLAIN}"
-            echo -e "  ${BCYAN}2. 阿里镜像源(大陆)${PLAIN}"
-            echo -e
-            read -p "请选择：" choose
-            case $choose in
-            1)
-                npm i --force -g yarn
-                yarn
-            ;;
-            2)
-                npm i --force -g yarn --registry=https://registry.npm.taobao.org
-                yarn config set registry https://registry.npm.taobao.org --global
-                yarn config set disturl https://npm.taobao.org/dist --global
-                yarn
-            ;;
-            *)
-                echo -e ""
-                echo -e "你选择了${choose}"
-                sleep 2s
-                echo -e "?"
-                echo -e "选的啥啊这"
-                echo -e "默认选择阿里镜像源"
-                npm i --force -g yarn --registry=https://registry.npm.taobao.org
-                yarn config set registry https://registry.npm.taobao.org --global
-                yarn config set disturl https://npm.taobao.org/dist --global
-                yarn
-            esac
+            git clone "https://github.com.cnpmjs.org/Tsuk1ko/cq-picsearcher-bot"
+            cp "${shloc}/cq-picsearcher-bot/config.default.jsonc" "${shloc}/cq-picsearcher-bot/config.jsonc"
+            cd "${shloc}/cq-picsearcher-bot/"
         fi
 
         echo -e
+        echo -e "选择yarn源"
+        echo -e "  ${BCYAN}1. 官方源(海外)${PLAIN}"
+        echo -e "  ${BCYAN}2. 阿里镜像源(大陆)${PLAIN}"
         echo -e
+        read -p "请选择：" choose
+        case $choose in
+        1)
+        #官方源(海外)
+            npm i --force -g yarn
+            yarn
+        ;;
+        2)
+        #阿里镜像源(大陆)
+            npm i --force -g yarn --registry=https://registry.npm.taobao.org
+            yarn config set registry https://registry.npm.taobao.org --global
+            yarn config set disturl https://npm.taobao.org/dist --global
+            yarn
+        ;;
+        *)
+        #默认阿里
+            echo -e ""
+            echo -e "你选择了${choose}"
+            sleep 2s
+            echo -e "?"
+               echo -e "选的啥啊这"
+            echo -e "默认选择阿里镜像源"
+            npm i --force -g yarn --registry=https://registry.npm.taobao.org
+            yarn config set registry https://registry.npm.taobao.org --global
+            yarn config set disturl https://npm.taobao.org/dist --global
+            yarn
+        esac
+
+        echo -e ""
+        echo -e ""
         echo -e "项目拉取完毕,请编辑${shloc}/cq-picsearcher-bot/config.jsonc,之后重新运行脚本"
-        echo -e
+        echo -e ""
+        echo -e "是否启用自动更新config.jsonc文件"
+        echo -e "  ${BCYAN}1. true${PLAIN}"
+        echo -e "  ${BCYAN}2. false${PLAIN}"
+        echo -e ""
+        read -p "请选择：" choose
+
+        case $choose in
+            1)
+            #true
+                sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
+                echo -e "DONE"
+            ;;
+            2)
+            #false
+                echo -e "DONE"
+            ;;
+            *)
+            #好选
+                echo -e "好 非常好"
+                echo -e "在${time}"
+                echo -e "你在一个只有${BMAGENTA}1-16${PLAIN}的菜单中选择了${BMAGENTA}${choose}${PLAIN}"
+                echo -e "那不管了,默认开"
+                sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
+                echo -e "DONE"
+            ;;
+        esac
     ;;
     13)
     #删除go-cqhttp
@@ -353,7 +354,7 @@ case $choose in
         if
             test -d "$checkfile"
         then
-            rm -rf ${shloc}/go-cqhttp/
+            rm -rf "${shloc}/go-cqhttp/"
         else
             echo -e "${BRED}未部署go-cqhttp"
         fi
@@ -364,12 +365,42 @@ case $choose in
         if
             test -d "$checkfile"
         then
-            rm -rf ${shloc}/cq-picsearcher-bot/
+            rm -rf "${shloc}/cq-picsearcher-bot/"
         else
             echo -e "${BRED}未部署cq-picsearcher-bot"
         fi
     ;;
     15)
+    #其他选项
+        clear
+        echo -e "${BBLACK}------------------------------------------------${PLAIN}"
+        echo -e "  ${BCYAN}1.   (也许能)修复CQPS无法启动"
+        echo -e "${BBLACK}------------------------------------------------${PLAIN}"
+        echo -e "  ${BCYAN}2.   启用自动更新config.jsonc文件"
+        echo -e "  ${BCYAN}3.   停用自动更新config.jsonc文件"
+        echo -e "${BBLACK}------------------------------------------------${PLAIN}"
+        echo -e ""
+        read -p "请选择：" choose
+
+        case $choose in
+        1)
+        #(也许能)修复CQPS无法启动
+            cd "${shloc}/cq-picsearcher-bot/"
+            npx pm2 kill
+            echo -e ""
+            echo -e "${BCYAN}DONE"
+        ;;
+        2)
+        #启用自动更新config.jsonc文件
+            sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
+        ;;
+        3)
+        #停用自动更新config.jsonc文件
+            sed -i 's|"autoUpdateConfig": true,|"autoUpdateConfig": false,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
+        ;;
+        esac
+    ;;
+    16)
     #显示项目信息
         echo -e ""
         echo -e "go-cqhttp"
@@ -387,6 +418,6 @@ case $choose in
         clear
         echo -e "好 非常好"
         echo -e "在${time}"
-        echo -e "你在一个只有${BMAGENTA}1-15${PLAIN}的菜单中选择了${BMAGENTA}${choose}${PLAIN}"
+        echo -e "你在一个只有${BMAGENTA}1-16${PLAIN}的菜单中选择了${BMAGENTA}${choose}${PLAIN}"
     ;;
 esac
