@@ -245,7 +245,46 @@ case $choose in
             cd "${shloc}/go-cqhttp/"
             ./go-cqhttp faststart
             echo -e "检测到存在${shloc}/go-cqhttp/文件夹,已备份为${shloc}/go-cqhttp.old/"
-            echo -e "项目拉取完毕,请编辑${shloc}/go-cqhttp/config.hjson,之后重新运行脚本"
+            echo -e "项目拉取完毕,是否开始填写config.hjson基础配置项"
+            echo -e "${BGREEN}// 输入项无需引号${PLAIN}"
+            echo -e "  ${BCYAN}1.   Yes${PLAIN}"
+            echo -e "  ${BCYAN}2.   No${PLAIN}"
+            read -p "请选择：" choose
+            case $choose in
+                1)
+                #Yes
+                    echo -e "你选择了Yes"
+                    echo -e ""
+
+                    #"uin"
+                    echo -e "QQ号"
+                    read -p "uin: " input
+                    sed -i 's|uin: .*,|uin: '"${input}"',|' "${shloc}/go-cqhttp/config.hjson"
+                    echo -e ""
+
+                    #"password"
+                    echo -e "QQ密码"
+                    read -p "password: " input
+                    sed -i 's|password: ".*",|password: "'"${input}"'",|' "${shloc}/go-cqhttp/config.hjson"
+                    echo -e ""
+
+                    #"access_token"
+                    echo -e "访问密钥, 强烈推荐在公网的服务器设置，可留空"
+                    read -p "access_token: " input
+                    sed -i 's|access_token: ".*",|access_token: "'"${input}"'",|' "${shloc}/go-cqhttp/config.hjson"
+                    echo -e ""
+
+                    echo -e "${BCYAN}DONE${PLAIN}"
+
+                ;;
+                *)
+                #No
+                    echo -e "你选择了No"
+
+                    echo -e "${BCYAN}DONE${PLAIN}"
+
+                ;;
+            esac
         else
             wget -P "${shloc}/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v0.9.40-fix5/go-cqhttp_linux_amd64.tar.gz"
             mkdir "${shloc}/go-cqhttp/"
@@ -268,19 +307,19 @@ case $choose in
                     #"uin"
                     echo -e "QQ号"
                     read -p "uin: " input
-                    sed -i 's|uin: .*,|uin: '"${input}"',|' "./config.hjson"
+                    sed -i 's|uin: .*,|uin: '"${input}"',|' "${shloc}/go-cqhttp/config.hjson"
                     echo -e ""
 
                     #"password"
                     echo -e "QQ密码"
                     read -p "password: " input
-                    sed -i 's|password: ".*",|password: "'"${input}"'",|' "./config.hjson"
+                    sed -i 's|password: ".*",|password: "'"${input}"'",|' "${shloc}/go-cqhttp/config.hjson"
                     echo -e ""
 
                     #"access_token"
                     echo -e "访问密钥, 强烈推荐在公网的服务器设置，可留空"
                     read -p "access_token: " input
-                    sed -i 's|access_token: ".*",|access_token: "'"${input}"'",|' "./config.hjson"
+                    sed -i 's|access_token: ".*",|access_token: "'"${input}"'",|' "${shloc}/go-cqhttp/config.hjson"
                     echo -e ""
 
                     echo -e "${BCYAN}DONE${PLAIN}"
