@@ -60,7 +60,7 @@ case $choose in
 1)
 #启动go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcst=`ps -ef |grep -w go-cqhttp|grep -v grep|wc -l`
+    gcst=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
     if
         [ $gcst = 0 ]
     then
@@ -87,7 +87,7 @@ case $choose in
 3)
 #关闭go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcst=`ps -ef |grep -w go-cqhttp|grep -v grep|wc -l`
+    gcst=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
     if
         [ $gcst = 0 ]
     then
@@ -150,54 +150,69 @@ case $choose in
     if
         test -d "$checkfile"
     then
-        rm -rf ${shloc}/go-cqhttp/boottask
-        mkdir ${shloc}/go-cqhttp/boottask
-        touch ${shloc}/go-cqhttp/boottask/gocq.sh
-        chmod 700 ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "#!/bin/bash" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "screen_name=$\"gocq\"" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "cmd1=$\"cd ${shloc}/go-cqhttp/\"" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "cmd2=$\"./go-cqhttp faststart\"" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "screen -dmS \$screen_name" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/go-cqhttp/boottask/gocq.sh
-        (echo -e "@reboot ${shloc}/go-cqhttp/boottask/gocq.sh" ; crontab -l ) | crontab
-        echo -e "${BMAGENTA}已向 crontab -e 写入 @reboot ${shloc}/go-cqhttp/boottask/gocq.sh${PLAIN}"
-        echo -e "${BYELLOW}在第二次设置自启前请确认已将crontab -e内的${MAGENTA}@reboot ${YELLOW}${shloc}/go-cqhttp/boottask/gocq.sh${BYELLOW}删除${PLAIN}"
+        rm -rf ${shloc}/go-cqhttp/gocq@reboot.sh
+        touch ${shloc}/go-cqhttp/gocq@reboot.sh
+        chmod 700 ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "#!/bin/bash" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "screen_name=$\"gocq\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "cmd1=$\"cd ${shloc}/go-cqhttp/\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "cmd2=$\"./go-cqhttp faststart\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "screen -dmS \$screen_name" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        (echo -e "@reboot ${shloc}/go-cqhttp/gocq@reboot.sh" ; crontab -l ) | crontab
+        echo -e "${BMAGENTA}已向 crontab -e 写入 @reboot ${shloc}/go-cqhttp/gocq@reboot.sh${PLAIN}"
+        echo -e "${BYELLOW}在第二次设置自启前请确认已将crontab -e内的${MAGENTA}@reboot ${YELLOW}${shloc}/go-cqhttp/gocq@reboot.sh${BYELLOW}删除${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     else
         echo -e "${BRED}未部署go-cqhttp${PLAIN}"
     fi
 ;;
 10)
 #设置CQPS自启
-    checkfile=${shloc}/cq-picsearcher-bot
-    if
-        test -d "$checkfile"
-    then
-        rm -rf ${shloc}/cq-picsearcher-bot/boottask
-        mkdir ${shloc}/cq-picsearcher-bot/boottask
-        touch ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        chmod 700 ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "#!/bin/bash" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "screen_name=$\"CQPS\"" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "cmd1=$\"cd ${shloc}/cq-picsearcher-bot/\"" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "cmd2=$\"npm start\"" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "cmd3=$\"exit\"" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "screen -dmS \$screen_name" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd3\"" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/boottask/cqps.sh
-        (echo -e "@reboot ${shloc}/cq-picsearcher-bot/boottask/cqps.sh" ; crontab -l ) | crontab
-        echo -e "${BMAGENTA}已向 crontab -e 写入 @reboot ${shloc}/cq-picsearcher-bot/boottask/cqps.sh${PLAIN}"
-        echo -e "${BYELLOW}在第二次设置自启前请确认已将crontab -e内的${MAGENTA}@reboot ${YELLOW}${shloc}/cq-picsearcher-bot/boottask/cqps.sh${BYELLOW}删除${PLAIN}"
-    else
-        echo -e "${BRED}未部署cq-picsearcher-bot${PLAIN}"
-    fi
+    echo -e "${BMAGENTA}CQPS启动后就会由pm2守护运行${PLAIN}"
+    echo -e "${BMAGENTA}所以说是不需要自启的${PLAIN}"
+    echo -e "${BCYAN}当然你要是真的有这个需求你也不是不能设${PLAIN}"
+    echo -e "${BCYAN}  1.   设置CQPS自启${PLAIN}"
+    echo -e "${BCYAN}  2.   不设置CQPS自启${PLAIN}"
+    read -p "请选择：" choose
+    case $choose in
+    1)
+    #设置CQPS自启
+        checkfile=${shloc}/cq-picsearcher-bot
+        if
+            test -d "$checkfile"
+        then
+            rm -rf ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            touch ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            chmod 700 ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "#!/bin/bash" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "screen_name=$\"CQPS\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "cmd1=$\"cd ${shloc}/cq-picsearcher-bot/\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "cmd2=$\"npm start\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "cmd3=$\"exit\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "screen -dmS \$screen_name" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd3\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            (echo -e "@reboot ${shloc}/cq-picsearcher-bot/cqps@reboot.sh" ; crontab -l ) | crontab
+            echo -e "${BMAGENTA}已向 crontab -e 写入 @reboot ${shloc}/cq-picsearcher-bot/cqps@reboot.sh${PLAIN}"
+            echo -e "${BYELLOW}在第二次设置自启前请确认已将crontab -e内的${MAGENTA}@reboot ${YELLOW}${shloc}/cq-picsearcher-bot/cqps@reboot.sh${BYELLOW}删除${PLAIN}"
+            echo -e "${BMAGENTA}DONE${PLAIN}"
+        else
+            echo -e "${BRED}未部署cq-picsearcher-bot${PLAIN}"
+        fi
+    ;;
+    *)
+    #不设置CQPS自启
+        echo -e "${BMAGENTA}DONE${PLAIN}"
+    ;;
+    easc
 ;;
 11)
 #部署go-cqhttp
