@@ -82,7 +82,7 @@ case $choose in
     clear
     cd "${shloc}/cq-picsearcher-bot/"
     npm start
-    echo -e "${MAGENTA}DONE${PLAIN}"
+    echo -e "${BMAGENTA}DONE${PLAIN}"
 ;;
 3)
 #关闭go-cqhttp
@@ -96,14 +96,14 @@ case $choose in
         pkill -P go-cqhttp
         screen -S gocq -X quit
     fi
-    echo -e "${MAGENTA}DONE${PLAIN}"
+    echo -e "${BMAGENTA}DONE${PLAIN}"
 ;;
 4)
 #关闭CQPS
     clear
     cd "${shloc}/cq-picsearcher-bot/"
     npm stop
-    echo -e "${MAGENTA}DONE${PLAIN}"
+    echo -e "${BMAGENTA}DONE${PLAIN}"
 ;;
 5)
 #查看go-cqhttp日志
@@ -142,7 +142,7 @@ case $choose in
     git reset --hard origin/master
     git pull
     npm start
-    echo -e "${MAGENTA}DONE${PLAIN}"
+    echo -e "${BMAGENTA}DONE${PLAIN}"
 ;;
 9)
 #设置go-cqhttp自启
@@ -285,7 +285,7 @@ case $choose in
     case $choose in
     1)
     #Yes
-        echo -e "${MAGENTA}你选择了Yes${PLAIN}"
+        echo -e "${BMAGENTA}你选择了Yes${PLAIN}"
         echo -e ""
         #"uin"
         echo -e "${BCYAN}QQ号${PLAIN}"
@@ -302,17 +302,17 @@ case $choose in
         read -p "access_token: " input
         sed -i 's|access-token: '.*'|access-token: '\'''"${input}"''\''|' "${shloc}/go-cqhttp/config.yml"
         echo -e ""
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     2)
     #No
-        echo -e "${MAGENTA}默认选择No${PLAIN}"
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}默认选择No${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     *)
     #No
-        echo -e "${MAGENTA}你选择了No${PLAIN}"
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}你选择了No${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     esac
 ;;
@@ -365,13 +365,13 @@ case $choose in
     case $choose in
     1)
     #官方源(海外)
-        echo -e "${MAGENTA}你选择了官方源${PLAIN}"
+        echo -e "${BMAGENTA}你选择了官方源${PLAIN}"
         npm i --force -g yarn
         yarn
     ;;
     2)
     #阿里镜像源(大陆)
-        echo -e "${MAGENTA}你选择了阿里镜像源${PLAIN}"
+        echo -e "${BMAGENTA}你选择了阿里镜像源${PLAIN}"
         npm i --force -g yarn --registry=https://registry.npm.taobao.org
         yarn config set registry https://registry.npm.taobao.org --global
         yarn config set disturl https://npm.taobao.org/dist --global
@@ -379,7 +379,7 @@ case $choose in
     ;;
     *)
     #默认阿里
-        echo -e "${MAGENTA}默认选择阿里镜像源${PLAIN}"
+        echo -e "${BMAGENTA}默认选择阿里镜像源${PLAIN}"
         npm i --force -g yarn --registry=https://registry.npm.taobao.org
         yarn config set registry https://registry.npm.taobao.org --global
         yarn config set disturl https://npm.taobao.org/dist --global
@@ -396,7 +396,7 @@ case $choose in
     case $choose in
     1)
     #Yes
-        echo -e "${MAGENTA}你选择了Yes${PLAIN}"
+        echo -e "${BMAGENTA}你选择了Yes${PLAIN}"
         echo -e ""
         #"autoUpdateConfig"
         echo -e "${BCYAN}是否启用自动更新 config.jsonc${PLAIN}"
@@ -407,16 +407,16 @@ case $choose in
         case $choose in
         1)
         #true
-            echo -e "${MAGENTA}你选择了true${PLAIN}"
+            echo -e "${BMAGENTA}你选择了true${PLAIN}"
             sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
         ;;
         2)
         #false
-            echo -e "${MAGENTA}你选择了false${PLAIN}"
+            echo -e "${BMAGENTA}你选择了false${PLAIN}"
         ;;
         *)
         #false
-            echo -e "${MAGENTA}默认选择false${PLAIN}"
+            echo -e "${BMAGENTA}默认选择false${PLAIN}"
         ;;
         esac
         echo -e ""
@@ -464,11 +464,11 @@ case $choose in
         echo -e "${BCYAN}复制api key${PLAIN}"
         read -p "\"saucenaoApiKey\": " input
         sed -i 's|"saucenaoApiKey": ".*",|"saucenaoApiKey": "'"${input}"'",|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     *)
     #No
-        echo -e "${MAGENTA}你选择了No${PLAIN}"
+        echo -e "${BMAGENTA}你选择了No${PLAIN}"
         echo -e "${BCYAN}是否启用自动更新config.jsonc${PLAIN}"
         echo -e "${BCYAN}  1.   true${PLAIN}(建议)"
         echo -e "${BCYAN}  2.   false${PLAIN}(默认)"
@@ -478,18 +478,18 @@ case $choose in
         1)
         #true
             sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-            echo -e "${MAGENTA}你选择了true${PLAIN}"
+            echo -e "${BMAGENTA}你选择了true${PLAIN}"
         ;;
         2)
         #false
-            echo -e "${MAGENTA}你选择了false${PLAIN}"
+            echo -e "${BMAGENTA}你选择了false${PLAIN}"
         ;;
         *)
         #false
-            echo -e "${MAGENTA}默认选择false${PLAIN}"
+            echo -e "${BMAGENTA}默认选择false${PLAIN}"
         ;;
         esac
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     esac
 ;;
@@ -545,17 +545,17 @@ case $choose in
     #(也许能)修复CQPS无法启动
         cd "${shloc}/cq-picsearcher-bot/"
         npx pm2 kill
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     2)
     #启用自动更新config.jsonc
         sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     3)
     #停用自动更新config.jsonc
         sed -i 's|"autoUpdateConfig": true,|"autoUpdateConfig": false,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     4)
     #通过二进制文件安装nodejs
@@ -650,7 +650,7 @@ case $choose in
         ;;
         esac
         rm -rf "${shloc}/nodejsdownload/"
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     5)
     #卸载通过二进制文件安装的nodejs
@@ -663,7 +663,7 @@ case $choose in
         rm -rf "/usr/share/doc/node/"
         rm -rf "/usr/share/man/man1/node.1"
         rm -rf "/usr/share/systemtap/tapset/node.stp"
-        echo -e "${MAGENTA}DONE${PLAIN}"
+        echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
     esac
 ;;
