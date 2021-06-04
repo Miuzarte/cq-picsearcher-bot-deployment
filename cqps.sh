@@ -212,7 +212,7 @@ case $choose in
     #不设置CQPS自启
         echo -e "${BMAGENTA}DONE${PLAIN}"
     ;;
-    easc
+    esac
 ;;
 11)
 #部署go-cqhttp
