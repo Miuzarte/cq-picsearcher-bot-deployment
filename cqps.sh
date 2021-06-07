@@ -79,7 +79,6 @@ case $choose in
 ;;
 2)
 #启动CQPS
-    clear
     cd "${shloc}/cq-picsearcher-bot/"
     npm start
     echo -e "${BMAGENTA}DONE${PLAIN}"
@@ -100,7 +99,6 @@ case $choose in
 ;;
 4)
 #关闭CQPS
-    clear
     cd "${shloc}/cq-picsearcher-bot/"
     npm stop
     echo -e "${BMAGENTA}DONE${PLAIN}"
@@ -697,7 +695,6 @@ case $choose in
 ;;
 *)
 #好选
-    clear
     echo -e "好 非常好"
     echo -e "在${time}"
     echo -e "你在一个只有${BMAGENTA}1-16${PLAIN}的菜单中选择了${BMAGENTA}${choose}${PLAIN}"
