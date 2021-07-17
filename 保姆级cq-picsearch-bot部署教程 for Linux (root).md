@@ -182,7 +182,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 ## 推荐的工具
 
 ### ssh类:
-1. __Xshell__ on Windows
+1. __Termius__ on Windows
 2. __Windows Terminal__ on Windows
 3. __Termux__ on Android
 
