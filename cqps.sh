@@ -145,9 +145,9 @@ case $choosen in
 1)
 #启动go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcthr=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
+    gcpc=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
     if
-        [ $gcthr = 0 ]
+        [ $gcpc = 0 ]
     then
         screen_name=$"gocq"
         cmd1=$"cd ${shloc}/go-cqhttp/"
@@ -172,9 +172,9 @@ case $choosen in
 3)
 #关闭go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcthr=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
+    gcpc=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
     if
-        [ $gcthr = 0 ]
+        [ $gcpc = 0 ]
     then
         echo -e "${FBYELLOW}go-cqhttp${BOLD}没有在运行${PLAIN}"
     else
@@ -192,9 +192,9 @@ case $choosen in
 5)
 #查看go-cqhttp日志
     #判断go-cqhttp进程是否存在
-    gcthr=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
+    gcpc=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
     if
-        [ $gcthr = 0 ]
+        [ $gcpc = 0 ]
     then
         echo -e "${FBYELLOW}go-cqhttp${BOLD}没有在运行${PLAIN}"
     else
@@ -637,9 +637,9 @@ case $choosen in
 13)
 #删除go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcthr=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
+    gcpc=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
     if
-        [ $gcthr = 0 ]
+        [ $gcpc = 0 ]
     then
         checkfile=${shloc}/go-cqhttp/
         if
