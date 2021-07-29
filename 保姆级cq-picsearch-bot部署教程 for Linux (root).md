@@ -12,19 +12,19 @@ __现在脚本是有了 不过也只是作为本文的辅助工具而已 [[relea
 
 ## 部署运行
 
-### 0. 首先你得有wget,git,screen这几个命令
+### 0. 首先你得有curl,wget,git,screen这几个命令  (步骤 1 包含于开头提到的脚本当中)
 
 1. 安装
 
-   For Ubuntu: `apt install -y wget git screen`
+   For Ubuntu: `apt install -y curl wget git screen`
 
-   For CentOS: `yum install -y wget git screen`
+   For CentOS: `yum install -y curl wget git screen`
 
-### 1. 部署go-cqhttp  (步骤 0-2,4-5 包含于开头提到的脚本当中)
+### 1. 部署go-cqhttp  (步骤 0-5 包含于前文提到的脚本当中)
 
 0. 新建窗口
 
-   `screen -S qq`
+   `screen -S gocq`
 
 1. 访问go-cqhttp的[[releases]](https://github.com/Mrs4s/go-cqhttp/releases)页面获取最新版本
 
@@ -40,7 +40,7 @@ __现在脚本是有了 不过也只是作为本文的辅助工具而已 [[relea
 
     `tar -zxvf go-cqhttp_linux_amd64.tar.gz`
 
-    `chmod -R 700 ./go-cqhttp`
+    `chmod +x ./go-cqhttp`
 
 2. 运行一遍使其生成默认配置文件
 
@@ -72,7 +72,7 @@ __现在脚本是有了 不过也只是作为本文的辅助工具而已 [[relea
 
    For CentOS: `yum install -y ffmpeg`
 
-### 2. 部署cq-picsearcher-bot  (步骤 1-3,5 包含于开头提到的脚本当中)
+### 2. 部署cq-picsearcher-bot  (步骤 1-5 包含于前文提到的脚本当中)
 
 1. 安装nodejs
 
@@ -124,7 +124,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ## 一些部署之后的事情
 
-### 0. 重启之后如何重新运行?  (脚本里有)
+### 0. 重启之后如何重新运行?  (该步骤包含于前文提到的脚本当中)
 
 ​    `screen -S qq`
 
@@ -134,7 +134,7 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​     `cd cq-picsearcher-bot && npm start`
 
-### 1. 更新go-cqhttp  (这个没有)
+### 1. 更新go-cqhttp
 
 ​		`screen -r qq`
 
@@ -150,17 +150,13 @@ __到现在bot就已经正常运行了,遇到问题请查看cq-picsearcher-bot�
 
 ​     <kbd>Ctrl</kbd> + <kbd>A</kbd> + <kbd>D</kbd>
 
-### 2. 更新cq-picsearcher-bot  (这个有)
+### 2. 更新cq-picsearcher-bot  (该步骤包含于前文提到的脚本当中)
 
 ​		__默认每24小时间检查一次更新,有更新会推送至管理员账号__
 
 ​		`cd cq-picsearcher-bot ; npm stop && git pull && npm i && npm start`
 
-​		配置文件方面,不建议cp覆盖后重写
-
-​		访问cq-picsearcher-bot的[[commits]](https://github.com/Tsuk1ko/cq-picsearcher-bot/commits/master)页面,点击最新的commit,将'config.default.jsonc'中新增(绿色高亮)的部分(如果有的话)复制粘贴去本地的'config.jsonc'
-
-​		__*根据上下文去粘贴__
+​		配置文件方面,目前cqps已经可以自动更新
 
 &nbsp;
 
