@@ -75,7 +75,7 @@ else
     *)
     #Default
         echo -e "${BOLD}${FBMAGENTA}?${PLAIN}"
-        exit 1
+        exit
     ;;
     esac
 fi
@@ -83,36 +83,46 @@ fi
 if
     ! test -f /bin/curl
 then
+    echo -e "${BOLD}${FBMAGENTA}需要安装curl命令！${PLAIN}"
     sudo ${pac} install -y curl
 fi
 if
     ! test -f /bin/wget
 then
+    echo -e "${BOLD}${FBMAGENTA}需要安装wget命令！${PLAIN}"
     sudo ${pac} install -y wget
 fi
 if
     ! test -f /bin/git
 then
+    echo -e "${BOLD}${FBMAGENTA}需要安装git命令！${PLAIN}"
     sudo ${pac} install -y git
 fi
 if
     ! test -f /bin/screen
 then
+    echo -e "${BOLD}${FBMAGENTA}需要安装screen命令！${PLAIN}"
     sudo ${pac} install -y screen
+fi
+if
+    ! test -f /bin/crontab
+then
+    echo -e "${BOLD}${FBMAGENTA}需要安装crontab命令！${PLAIN}"
+    sudo ${pac} install -y crontab
 fi
 #判断权限
 rootornot=$(id | awk '{print $1}')
 clear
 if
-    [[ $rootornot != *"id=0"*"root"* ]];
+    [[ $rootornot = *"id=0"*"root"* ]];
 then
-    echo -e "${BOLD}${FBYELLOW}建议以root身份执行该脚本${PLAIN}"
-else
     echo -e "${BOLD}${FBGREEN}root${PLAIN}"
+else
+    echo -e "${BOLD}${FBYELLOW}建议以root身份执行该脚本${PLAIN}"
 fi
 echo -e "------------------------------------------------"
 echo -e "cq-picsearcher-bot 懒人部署&管理脚本${PLAIN}"
-echo -e "更新时间 2021/08/03-Tue"
+echo -e "更新时间 2021/08/11-Wed"
 echo -e "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
 echo -e "------------------------------------------------"
 echo -e "${BOLD}${FBCYAN}  1.   ${FBGREEN}启动go-cqhttp${PLAIN}"
@@ -121,8 +131,8 @@ echo -e "${BBLACK}------------------------------------------------${PLAIN}"
 echo -e "${BOLD}${FBCYAN}  3.   ${FBRED}关闭go-cqhttp${PLAIN}"
 echo -e "${BOLD}${FBCYAN}  4.   ${FBRED}关闭CQPS${PLAIN}"
 echo -e "${BBLACK}------------------------------------------------${PLAIN}"
-echo -e "${BOLD}${FBCYAN}  5.   ${FBYELLOW}查看go-cqhttp${FBYELLOW}日志${PLAIN}"
-echo -e "${BOLD}${FBCYAN}  6.   ${FBYELLOW}查看CQPS${FBYELLOW}     日志${PLAIN}"
+echo -e "${BOLD}${FBCYAN}  5.   ${FBYELLOW}查看go-cqhttp${FBYELLOW}最新日志${PLAIN}"
+echo -e "${BOLD}${FBCYAN}  6.   ${FBYELLOW}查看CQPS${FBYELLOW}     最新日志${PLAIN}"
 echo -e "${BBLACK}------------------------------------------------${PLAIN}"
 echo -e "${BOLD}${FBCYAN}  7.   ${FBMAGENTA}更新go-cqhttp${PLAIN}"
 echo -e "${BOLD}${FBCYAN}  8.   ${FBMAGENTA}更新CQPS${PLAIN}"
@@ -145,7 +155,7 @@ case $choosen in
 1)
 #启动go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcpc=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
+    gcpc=$(ps -ef | grep -w go-cqhttp | grep -v grep | wc -l)
     if
         [ $gcpc = 0 ]
     then
@@ -172,13 +182,13 @@ case $choosen in
 3)
 #关闭go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcpc=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
+    gcpc=$(ps -ef | grep -w go-cqhttp | grep -v grep | wc -l)
     if
         [ $gcpc = 0 ]
     then
         echo -e "${BOLD}${FBYELLOW}go-cqhttp没有在运行${PLAIN}"
     else
-        pkill -P go-cqhttp
+        pkill go-cqhttp
         screen -S gocq -X quit
     fi
     echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
@@ -190,32 +200,61 @@ case $choosen in
     echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
 ;;
 5)
-#查看go-cqhttp日志
-    #判断go-cqhttp进程是否存在
-    gcpc=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
+#查看go-cqhttp最新日志
+    #获取最新logs文件名
+    logfilename=$(ls -lt ${shloc}/go-cqhttp/logs/ | grep -E 202[0-9]-[0-1][0-9]-[0-3][0-9] | head -1 | awk '{print $9}')
+    echo -e "${BOLD}${FBCYAN}进入之后 'Ctrl + C' 退出${PLAIN}"
+    echo -e "${BOLD}${FBGREEN}// 实时更新${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}键入想要输出的行数l，留空则l=64${PLAIN}"
+    read -p "l=" input
     if
-        [ $gcpc = 0 ]
+        [ "$input" = "" ]
     then
-        echo -e "${BOLD}${FBYELLOW}go-cqhttp没有在运行${PLAIN}"
-    else
-        echo -e "${BOLD}${FBCYAN}进入之后 'Ctrl + A + D' 退出${PLAIN}"
-        echo -e "${BOLD}${FBCYAN}回车继续${PLAIN}"
-        read -p ""
-        screen -r gocq
+        input=64
     fi
+    echo -e "${BOLD}${FBMAGENTA}即将输出${shloc}/go-cqhttp/logs/${logfilename}中最后${input}行日志${PLAIN}"
+    sleep 2s
+    tail -f -n ${input} "${shloc}/go-cqhttp/logs/${logfilename}"
 ;;
 6)
-#查看CQPS日志
-    cd "${shloc}/cq-picsearcher-bot/"
+#查看CQPS最新日志
+    echo -e "${BOLD}${FBCYAN}选择要查看的日志${PLAIN}"
     echo -e "${BOLD}${FBCYAN}进入之后 'Ctrl + C' 退出${PLAIN}"
-    echo -e "${BOLD}${FBCYAN}回车继续${PLAIN}"
-    read -p ""
-    npm run log
+    echo -e "${BOLD}${FBGREEN}// 实时更新${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}  1.   normal.log${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}  2.   error.log${PLAIN}"
+    read -p "Type in the number to choose: " choosen
+    echo -e "${BOLD}${FBCYAN}键入想要输出的行数l，留空则l=64${PLAIN}"
+    read -p "l=" input
+    if
+        [ "$input" = "" ]
+    then
+        input=64
+    fi
+    case $choosen in
+    1)
+    #normal.log
+        echo -e "${BOLD}${FBMAGENTA}即将输出${shloc}/cq-picsearcher-bot/logs/normal.log中最后${input}行日志${PLAIN}"
+        sleep 2s
+        tail -f -n ${input} "${shloc}/cq-picsearcher-bot/logs/normal.log"
+    ;;
+    2)
+    #error.log
+        echo -e "${BOLD}${FBMAGENTA}即将输出${shloc}/cq-picsearcher-bot/logs/normal.log中最后${input}行日志${PLAIN}"
+        sleep 2s
+        tail -f -n ${input} "${shloc}/cq-picsearcher-bot/logs/error.log"
+    ;;
+    esac
 ;;
 7)
 #更新go-cqhttp
     echo -e "${BOLD}${FBCYAN}https://github.com/Mrs4s/go-cqhttp/releases${PLAIN}"
-    echo -e "${BOLD}${FBCYAN}请${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}手动更新${PLAIN}"
+    echo -e ""
+    echo -e "${BOLD}${FBCYAN}或${PLAIN}"
+    echo -e ""
+    echo -e "${BOLD}${FBCYAN}https://github.com/Miuzarte/cq-picsearcher-bot-deployment/releases${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}等待同步${PLAIN}"
 ;;
 8)
 #更新CQPS
@@ -234,18 +273,18 @@ case $choosen in
     if
         test -d "$checkfile"
     then
-        rm -rf ${shloc}/go-cqhttp/gocq@reboot.sh
-        touch ${shloc}/go-cqhttp/gocq@reboot.sh
-        chmod +x ${shxoc}/go-cqhttp/gocq@reboot.sh
-        echo "#!/bin/bash" >> ${shloc}/go-cqhttp/gocq@reboot.sh
-        echo "screen_name=$\"gocq\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
-        echo "cmd1=$\"cd ${shloc}/go-cqhttp/\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
-        echo "cmd2=$\"./go-cqhttp faststart\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
-        echo "screen -dmS \$screen_name" >> ${shloc}/go-cqhttp/gocq@reboot.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/go-cqhttp/gocq@reboot.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> ${shloc}/go-cqhttp/gocq@reboot.sh
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/go-cqhttp/gocq@reboot.sh
+        rm -rf "${shloc}/go-cqhttp/gocq@reboot.sh"
+        touch "${shloc}/go-cqhttp/gocq@reboot.sh"
+        chmod +x "${shxoc}/go-cqhttp/gocq@reboot.sh"
+        echo "#!/bin/bash" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen_name=$\"gocq\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "cmd1=$\"cd ${shloc}/go-cqhttp/\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "cmd2=$\"./go-cqhttp faststart\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen -dmS \$screen_name" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
         (echo -e "@reboot ${shloc}/go-cqhttp/gocq@reboot.sh" ; crontab -l ) | crontab
         echo -e "${BOLD}${FBMAGENTA}已向 ${PLAIN}crontab -e ${FBMAGENTA}写入 ${PLAIN}${FMAGENTA}@reboot ${FYELLOW}${shloc}/go-cqhttp/gocq@reboot.sh${PLAIN}"
         echo -e "${BOLD}${FBYELLOW}在第二次设置自启前请确认已删除 ${PLAIN}${FBYELLOW}crontab -e 内的 ${PLAIN}${FMAGENTA}@reboot ${FYELLOW}${shloc}/go-cqhttp/gocq@reboot.sh${PLAIN}"
@@ -268,21 +307,21 @@ case $choosen in
         case $choosen in
         1)
         #Yes
-            rm -rf ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            touch ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            chmod +X ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "#!/bin/bash" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "screen_name=$\"CQPS\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "cmd1=$\"cd ${shloc}/cq-picsearcher-bot/\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "cmd2=$\"npm start\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "cmd3=$\"exit\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "screen -dmS \$screen_name" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd3\"" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
-            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> ${shloc}/cq-picsearcher-bot/cqps@reboot.sh
+            rm -rf "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            touch "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            chmod +X "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "#!/bin/bash" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen_name=$\"CQPS\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "cmd1=$\"cd ${shloc}/cq-picsearcher-bot/\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "cmd2=$\"npm start\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "cmd3=$\"exit\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -dmS \$screen_name" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd3\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
             (echo -e "@reboot ${shloc}/cq-picsearcher-bot/cqps@reboot.sh" ; crontab -l ) | crontab
             echo -e "${BOLD}${FBMAGENTA}已向 ${PLAIN}crontab -e ${FBMAGENTA}写入 ${PLAIN}${FMAGENTA}@reboot ${FYELLOW}${shloc}/cq-picsearcher-bot/cqps@reboot.sh${PLAIN}"
             echo -e "${BOLD}${FBYELLOW}在第二次设置自启前请确认已删除 ${PLAIN}crontab -e ${FBYELLOW}内的 ${PLAIN}${FMAGENTA}@reboot ${FYELLOW}${shloc}/cq-picsearcher-bot/cqps@reboot.sh${PLAIN}"
@@ -374,6 +413,7 @@ case $choosen in
     echo -e "${BOLD}${FBCYAN}接下来请选择${PLAIN}"
     echo -e "${BOLD}> 2: 正向 Websocket 通信${PLAIN}"
     echo -e "${BOLD}${FBCYAN}输入一个2之后一共按两次回车${PLAIN}"
+    sleep 1s
     ./go-cqhttp faststart
     echo -e "${BOLD}${FBCYAN}项目拉取完毕，是否开始填写 config.yml 基础配置项${PLAIN}"
     echo -e "${BOLD}${FBGREEN}// 输入项无需任何引号${PLAIN}"
@@ -393,6 +433,7 @@ case $choosen in
         echo -e ""
         #"password"
         echo -e "${BOLD}${FBCYAN}QQ密码，留空则使用扫码登陆${PLAIN}"
+        echo -e "${BOLD}${FBGREEN}// 推荐无密码扫码，有密码的情况下扫码大概率失败${PLAIN}"
         read -p "password: " input
         sed -i 's|password: '.*'|password: '\'''"${input}"''\''|' "${shloc}/go-cqhttp/config.yml"
         echo -e ""
@@ -448,8 +489,9 @@ case $choosen in
         echo -e "${BOLD}${FBMAGENTA}默认选择No${PLAIN}"
     ;;
     esac
-    echo -e "${BOLD}${FBMAGENTA}部署结束${PLAIN}"
-    echo -e "${BOLD}${FBMAGENTA}在第一次启动时请查看go-cqhttp日志进行扫码/验证登录${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}部署结束，将进行首次启动验证登录，确认登录成功之后 'Ctrl + C' 退出，然后重新运行脚本选项1${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}回车继续${PLAIN}"
+    ./go-cqhttp faststart
 ;;
 12)
 #部署CQPS
@@ -460,28 +502,7 @@ case $choosen in
     then
         nodever=$(node -v)
         case $nodever in
-        "v14."*)
-            echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
-        ;;
-        "v15."*)
-            echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
-        ;;
-        "v16."*)
-            echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
-        ;;
-        "v17."*)
-            echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
-        ;;
-        "v18."*)
-            echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
-        ;;
-        "v19."*)
-            echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
-        ;;
-        "v20."*)
-            echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
-        ;;
-        "v21."*)
+        v1[4-9].*)
             echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
         ;;
         *)
@@ -499,7 +520,7 @@ case $choosen in
     #判断是否二次部署
     checkfile=${shloc}/cq-picsearcher-bot/
     if
-        test -d "$checkfile"
+        test -d "${checkfile}"
     then
         mv "${shloc}/cq-picsearcher-bot/" "${shloc}/cq-picsearcher-bot.old/"
         echo -e "${FBMAGENTA}检测到存在${shloc}/cq-picsearcher-bot/文件夹，已备份为${shloc}/cq-picsearcher-bot.old/${PLAIN}"
@@ -549,28 +570,6 @@ case $choosen in
     #Yes
         echo -e "${BOLD}${FBMAGENTA}你选择了Yes${PLAIN}"
         echo -e ""
-        #"autoUpdateConfig"
-        echo -e "${BOLD}${FBCYAN}是否启用自动更新 config.jsonc${PLAIN}"
-        echo -e "${BOLD}${FBCYAN}  1.   true(建议)${PLAIN}"
-        echo -e "${BOLD}${FBCYAN}  2.   false(默认)${PLAIN}"
-        echo -e ""
-        read -p "Type in the number to choose: " choosen
-        case $choosen in
-        1)
-        #true
-            echo -e "${BOLD}${FBMAGENTA}你选择了true${PLAIN}"
-            sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-        ;;
-        2)
-        #false
-            echo -e "${BOLD}${FBMAGENTA}你选择了false${PLAIN}"
-        ;;
-        *)
-        #Default
-            echo -e "${BOLD}${FBMAGENTA}默认选择false${PLAIN}"
-        ;;
-        esac
-        echo -e ""
         #"port"
         echo -e "${BOLD}${FBCYAN}go-cqhttp ws端口，留空则保持默认6700${PLAIN}"
         read -p "\"port\": " input
@@ -616,29 +615,33 @@ case $choosen in
         read -p "\"saucenaoApiKey\": " input
         sed -i 's|"saucenaoApiKey": ".*",|"saucenaoApiKey": "'"${input}"'",|' "${shloc}/cq-picsearcher-bot/config.jsonc"
     ;;
-    *)
+    2)
     #No
         echo -e "${BOLD}${FBMAGENTA}你选择了No${PLAIN}"
-        echo -e "${BOLD}${FBCYAN}是否启用自动更新 config.jsonc${PLAIN}"
-        echo -e "${BOLD}${FBCYAN}  1.   true(建议)${PLAIN}"
-        echo -e "${BOLD}${FBCYAN}  2.   false(默认)${PLAIN}"
-        echo -e ""
-        read -p "Type in the number to choose: " choosen
-        case $choosen in
-        1)
-        #true
-            sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-            echo -e "${BOLD}${FBMAGENTA}你选择了true${PLAIN}"
-        ;;
-        2)
-        #false
-            echo -e "${BOLD}${FBMAGENTA}你选择了false${PLAIN}"
-        ;;
-        *)
-        #Default
-            echo -e "${BOLD}${FBMAGENTA}默认选择false${PLAIN}"
-        ;;
-        esac
+    ;;
+    *)
+    #Default
+        echo -e "${BOLD}${FBMAGENTA}默认选择No${PLAIN}"
+    ;;
+    esac
+    echo -e "${BOLD}${FBCYAN}是否启用自动更新 config.jsonc${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}  1.   true(建议)${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}  2.   false(默认)${PLAIN}"
+    echo -e ""
+    read -p "Type in the number to choose: " choosen
+    case $choosen in
+    1)
+    #true
+        sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
+        echo -e "${BOLD}${FBMAGENTA}你选择了true${PLAIN}"
+    ;;
+    2)
+    #false
+        echo -e "${BOLD}${FBMAGENTA}你选择了false${PLAIN}"
+    ;;
+    *)
+    #Default
+        echo -e "${BOLD}${FBMAGENTA}默认选择false${PLAIN}"
     ;;
     esac
 ;;
@@ -685,13 +688,11 @@ case $choosen in
     echo -e "${BBLACK}------------------------------------------------${PLAIN}"
     echo -e "${BOLD}${FBCYAN}  2.   设置go-cqhttp日志等级${PLAIN}"
     echo -e "${BOLD}${FBCYAN}  3.   设置go-cqhttp日志保留时长${PLAIN}"
-    echo -e "${BOLD}${FBCYAN}  4.   ${FAINT}自动备份go-cqhttp日志${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}  4.   ${FAINT}(开关)自动备份go-cqhttp日志${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}  5.   (开关)自动更新config.jsonc${PLAIN}"
     echo -e "${BBLACK}------------------------------------------------${PLAIN}"
-    echo -e "${BOLD}${FBCYAN}  5.   启用自动更新config.jsonc${PLAIN}"
-    echo -e "${BOLD}${FBCYAN}  6.   停用自动更新config.jsonc${PLAIN}"
-    echo -e "${BBLACK}------------------------------------------------${PLAIN}"
-    echo -e "${BOLD}${FBCYAN}  7.   通过二进制文件安装nodejs${PLAIN}"
-    echo -e "${BOLD}${FBCYAN}  8.   卸载通过二进制文件安装的nodejs${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}  6.   通过二进制文件安装nodejs${PLAIN}"
+    echo -e "${BOLD}${FBCYAN}  7.   卸载通过二进制文件安装的nodejs${PLAIN}"
     echo -e "${BBLACK}------------------------------------------------${PLAIN}"
     echo -e ""
     read -p "Type in the number to choose: " choosen
@@ -747,34 +748,45 @@ case $choosen in
         echo -e "${BOLD}${FBMAGENTA}这是一个已弃用的功能${PLAIN}"
         echo -e "${BOLD}${FBMAGENTA}go-cqhttp v1.0.0-beta5可以设置永久保留日志${PLAIN}"
         echo -e "${BOLD}${FBCYAN}当然你要是真的有这个需求也不是不能设${PLAIN}"
-        echo -e "${BOLD}${FBCYAN}  1.   Yes${PLAIN}"
-        echo -e "${BOLD}${FBCYAN}  2.   No${PLAIN}"
+        echo -e "${BOLD}${FBCYAN}  1.   Enable${PLAIN}"
+        echo -e "${BOLD}${FBCYAN}  2.   Disable${PLAIN}"
         read -p "Type in the number to choose: " choosen
         case $choosen in
         1)
-        #Yes
+        #Enable
             mkdir "${shloc}/go-cqhttp/logs.old/"
-            (echo -e "0 * * * * cp -rf ${shloc}/go-cqhttp/logs/* ${shloc}/go-cqhttp/logs.old/" ; crontab -l ) | crontab
-            echo -e "${BOLD}${FBMAGENTA}已向 ${PLAIN}crontab -e ${FBMAGENTA}写入 ${PLAIN}${FRED}0 ${FMAGENTA}/* ${FGREEN}* ${FRED}* ${FMAGENTA}* ${FYELLOW}cp -rf ${shloc}/go-cqhttp/logs/* ${shloc}/go-cqhttp/logs.old/${PLAIN}"
+            touch "/etc/cron.hourly/gocqlogs.sh"
+            chmod +x "/etc/cron.hourly/gocqlogs.sh"
+            echo -e "cp -rf ${shloc}/go-cqhttp/logs/* ${shloc}/go-cqhttp/logs.old/" >> "/etc/cron.hourly/gocqlogs.sh"
+            echo -e "${BOLD}${FBMAGENTA}系统将会每小时把${shloc}/go-cqhttp/logs/内的文件复制到${shloc}/go-cqhttp/logs.old/${PLAIN}"
             echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
         ;;
         2)
-        #No
+        #Disable
+            rm -f "/etc/cron.hourly/gocqlogs.sh"
             echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
         ;;
         esac
     ;;
     5)
-    #启用自动更新config.jsonc
-        sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-        echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
+    #自动更新config.jsonc
+        echo -e "${BOLD}${FBCYAN}  1.   Enable${PLAIN}"
+        echo -e "${BOLD}${FBCYAN}  2.   Disable${PLAIN}"
+        read -p "Type in the number to choose: " choosen
+        case $choosen in
+        1)
+        #Enable
+            sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
+            echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
+        ;;
+        2)
+        #Disable
+            sed -i 's|"autoUpdateConfig": true,|"autoUpdateConfig": false,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
+            echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
+        ;;
+        esac
     ;;
     6)
-    #停用自动更新config.jsonc
-        sed -i 's|"autoUpdateConfig": true,|"autoUpdateConfig": false,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-        echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
-    ;;
-    7)
     #通过二进制文件安装nodejs
         mkdir "${shloc}/cqps.sh.download/"
         #判断架构
@@ -870,7 +882,7 @@ case $choosen in
         rm -rf "${shloc}/cqps.sh.download/"
         echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
     ;;
-    8)
+    7)
     #卸载通过二进制文件安装的nodejs
         echo -e "${FBMAGENTA}正在卸载${PLAIN}"
         rm -rf "/usr/bin/node"
@@ -900,6 +912,6 @@ case $choosen in
 ;;
 *)
 #退出
-    exit 1
+    exit
 ;;
 esac
