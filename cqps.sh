@@ -38,11 +38,12 @@ BBBLUE="\e[104m"       #背景亮蓝色${BBBLUE}
 BBMAGENTA="\e[105m"    #背景亮洋红色${BBMAGENTA}
 BBCYAN="\e[106m"       #背景亮青色${BBCYAN}
 BBWHITE="\e[107m"      #背景亮灰色${BBWHITE}
-shloc=$(cd `dirname $0`; pwd)   #脚本所在绝对路径${shloc}
-time=$(date "+%Y年%m月%d日%H时%M分%S秒")   #脚本启动时时间${time}
-#判断包管理器sudo ${pac} install -y
-lsbfile=/etc/lsb-release
-rhfile=/etc/redhat-release
+shloc="$(cd `dirname $0`; pwd)"    #脚本所在绝对路径${shloc}
+lctime="$(date "+%Y年%m月%d日%H时%M分%S秒")"    #脚本启动时时间${lctime}
+scrn="gocq"    #go-cqhtto的screen名
+#判断包管理器sudo "${pac}" install -y
+lsbfile="/etc/lsb-release"
+rhfile="/etc/redhat-release"
 if
     test -f "$lsbfile"
 then
@@ -59,7 +60,7 @@ else
     echo -e "${BOLD}${FBCYAN}  1.   apt${PLAIN}"
     echo -e "${BOLD}${FBCYAN}  2.   yum${PLAIN}"
     read -p "Type in the number to choose: " choosen
-    case $choosen in
+    case "${choosen}" in
     1)
     #apt
         echo -e "${BOLD}${FBMAGENTA}你选择了apt${PLAIN}"
@@ -81,40 +82,40 @@ else
 fi
 #基础检测
 if
-    ! test -f /bin/curl
+    ! test -f "/bin/curl"
 then
     echo -e "${BOLD}${FBMAGENTA}需要安装curl命令！${PLAIN}"
-    sudo ${pac} install -y curl
+    sudo "${pac}" install -y curl
 fi
 if
-    ! test -f /bin/wget
+    ! test -f "/bin/wget"
 then
     echo -e "${BOLD}${FBMAGENTA}需要安装wget命令！${PLAIN}"
-    sudo ${pac} install -y wget
+    sudo "${pac}" install -y wget
 fi
 if
-    ! test -f /bin/git
+    ! test -f "/bin/git"
 then
     echo -e "${BOLD}${FBMAGENTA}需要安装git命令！${PLAIN}"
-    sudo ${pac} install -y git
+    sudo "${pac}" install -y git
 fi
 if
-    ! test -f /bin/screen
+    ! test -f "/bin/screen"
 then
     echo -e "${BOLD}${FBMAGENTA}需要安装screen命令！${PLAIN}"
-    sudo ${pac} install -y screen
+    sudo "${pac}" install -y screen
 fi
 if
-    ! test -f /bin/crontab
+    ! test -f "/bin/crontab"
 then
     echo -e "${BOLD}${FBMAGENTA}需要安装crontab命令！${PLAIN}"
-    sudo ${pac} install -y crontab
+    sudo "${pac}" install -y crontab
 fi
 #判断权限
-rootornot=$(id | awk '{print $1}')
+rootornot="$(id | awk '{print $1}')"
 clear
 if
-    [[ $rootornot = *"id=0"*"root"* ]];
+    [[ "${rootornot}" = *"id=0"*"root"* ]];
 then
     echo -e "${BOLD}${FBGREEN}root${PLAIN}"
 else
@@ -122,7 +123,7 @@ else
 fi
 echo -e "------------------------------------------------"
 echo -e "cq-picsearcher-bot 懒人部署&管理脚本${PLAIN}"
-echo -e "更新时间 2021/08/11-Wed"
+echo -e "更新时间 2021/08/15-Sun"
 echo -e "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
 echo -e "------------------------------------------------"
 echo -e "${BOLD}${FBCYAN}  1.   ${FBGREEN}启动go-cqhttp${PLAIN}"
@@ -134,7 +135,7 @@ echo -e "${BBLACK}------------------------------------------------${PLAIN}"
 echo -e "${BOLD}${FBCYAN}  5.   ${FBYELLOW}查看go-cqhttp${FBYELLOW}最新日志${PLAIN}"
 echo -e "${BOLD}${FBCYAN}  6.   ${FBYELLOW}查看CQPS${FBYELLOW}     最新日志${PLAIN}"
 echo -e "${BBLACK}------------------------------------------------${PLAIN}"
-echo -e "${BOLD}${FBCYAN}  7.   ${FBMAGENTA}更新go-cqhttp${PLAIN}"
+echo -e "${BOLD}${FBCYAN}  7.   ${FBMAGENTA}${FAINT}更新go-cqhttp${PLAIN}"
 echo -e "${BOLD}${FBCYAN}  8.   ${FBMAGENTA}更新CQPS${PLAIN}"
 echo -e "${BBLACK}------------------------------------------------${PLAIN}"
 echo -e "${BOLD}${FBCYAN}  9.   ${FBBLUE}设置go-cqhttp crontab@reboot${FBBLUE}自启${PLAIN}"
@@ -151,24 +152,21 @@ echo -e "${BOLD}${FBCYAN}  16.  ${PLAIN}显示项目信息${PLAIN}"
 echo -e "------------------------------------------------"
 echo -e ""
 read -p "Type in the number to choose: " choosen
-case $choosen in
+case "${choosen}" in
 1)
 #启动go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcpc=$(ps -ef | grep -w go-cqhttp | grep -v grep | wc -l)
+    gcpc="$(ps -ef | grep -w go-cqhttp | grep -v grep | wc -l)"
     if
-        [ $gcpc = 0 ]
+        [ "${gcpc}" = "0" ]
     then
-        screen_name=$"gocq"
-        cmd1=$"cd ${shloc}/go-cqhttp/"
-        cmd2=$"./go-cqhttp faststart"
-        screen -S $screen_name -X quit
-        screen -dmS $screen_name
-        screen -x -S $screen_name -p 0 -X stuff "$cmd1"
-        screen -x -S $screen_name -p 0 -X stuff $'\n'
-        screen -x -S $screen_name -p 0 -X stuff "$cmd2"
-        screen -x -S $screen_name -p 0 -X stuff $'\n'
-        echo -e "${BOLD}${FBMAGENTA}已创建名为${PLAIN}gocq${FBMAGENTA}的screen实例并启动go-cqhttp${PLAIN}"
+        screen -S "${scrn}" -X quit
+        screen -dmS "${scrn}"
+        screen -x -S "${scrn}" -p 0 -X stuff "cd ${shloc}/go-cqhttp/"
+        screen -x -S "${scrn}" -p 0 -X stuff '\n'
+        screen -x -S "${scrn}" -p 0 -X stuff "./go-cqhttp faststart"
+        screen -x -S "${scrn}" -p 0 -X stuff '\n'
+        echo -e "${BOLD}${FBMAGENTA}已创建名为${PLAIN}${scrn}${FBMAGENTA}的screen实例并启动go-cqhttp${PLAIN}"
     else
         echo -e "${BOLD}${FBYELLOW}go-cqhttp正在运行中${PLAIN}"
     fi
@@ -182,16 +180,16 @@ case $choosen in
 3)
 #关闭go-cqhttp
     #判断go-cqhttp进程是否存在
-    gcpc=$(ps -ef | grep -w go-cqhttp | grep -v grep | wc -l)
+    gcpc="$(ps -ef | grep -w go-cqhttp | grep -v grep | wc -l)"
     if
-        [ $gcpc = 0 ]
+        [ "${gcpc}" = "0" ]
     then
         echo -e "${BOLD}${FBYELLOW}go-cqhttp没有在运行${PLAIN}"
     else
-        pkill go-cqhttp
-        screen -S gocq -X quit
+        killall "go-cqhttp"
+        screen -S "${scrn}" -X quit
+        echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
     fi
-    echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
 ;;
 4)
 #关闭CQPS
@@ -202,19 +200,19 @@ case $choosen in
 5)
 #查看go-cqhttp最新日志
     #获取最新logs文件名
-    logfilename=$(ls -lt ${shloc}/go-cqhttp/logs/ | grep -E 202[0-9]-[0-1][0-9]-[0-3][0-9] | head -1 | awk '{print $9}')
+    logfilename="$(ls -lt ${shloc}/go-cqhttp/logs/ | grep -E 202[0-9]-[0-1][0-9]-[0-3][0-9] | head -1 | awk '{print $9}')"
     echo -e "${BOLD}${FBCYAN}进入之后 'Ctrl + C' 退出${PLAIN}"
     echo -e "${BOLD}${FBGREEN}// 实时更新${PLAIN}"
     echo -e "${BOLD}${FBCYAN}键入想要输出的行数l，留空则l=64${PLAIN}"
     read -p "l=" input
     if
-        [ "$input" = "" ]
+        [ "${input}" = "" ]
     then
-        input=64
+        input="64"
     fi
     echo -e "${BOLD}${FBMAGENTA}即将输出${shloc}/go-cqhttp/logs/${logfilename}中最后${input}行日志${PLAIN}"
     sleep 2s
-    tail -f -n ${input} "${shloc}/go-cqhttp/logs/${logfilename}"
+    tail -f -n "${input}" "${shloc}/go-cqhttp/logs/${logfilename}"
 ;;
 6)
 #查看CQPS最新日志
@@ -227,22 +225,22 @@ case $choosen in
     echo -e "${BOLD}${FBCYAN}键入想要输出的行数l，留空则l=64${PLAIN}"
     read -p "l=" input
     if
-        [ "$input" = "" ]
+        [ "${input}" = "" ]
     then
-        input=64
+        input="64"
     fi
-    case $choosen in
+    case "${choosen}" in
     1)
     #normal.log
         echo -e "${BOLD}${FBMAGENTA}即将输出${shloc}/cq-picsearcher-bot/logs/normal.log中最后${input}行日志${PLAIN}"
         sleep 2s
-        tail -f -n ${input} "${shloc}/cq-picsearcher-bot/logs/normal.log"
+        tail -f -n "${input}" "${shloc}/cq-picsearcher-bot/logs/normal.log"
     ;;
     2)
     #error.log
         echo -e "${BOLD}${FBMAGENTA}即将输出${shloc}/cq-picsearcher-bot/logs/normal.log中最后${input}行日志${PLAIN}"
         sleep 2s
-        tail -f -n ${input} "${shloc}/cq-picsearcher-bot/logs/error.log"
+        tail -f -n "${input}" "${shloc}/cq-picsearcher-bot/logs/error.log"
     ;;
     esac
 ;;
@@ -269,22 +267,18 @@ case $choosen in
 ;;
 9)
 #设置go-cqhttp自启
-    checkfile=${shloc}/go-cqhttp/
+    checkfile="${shloc}/go-cqhttp/"
     if
-        test -d "$checkfile"
+        test -d "${checkfile}"
     then
         rm -rf "${shloc}/go-cqhttp/gocq@reboot.sh"
         touch "${shloc}/go-cqhttp/gocq@reboot.sh"
-        chmod +x "${shxoc}/go-cqhttp/gocq@reboot.sh"
+        chmod +x "${shloc}/go-cqhttp/gocq@reboot.sh"
         echo "#!/bin/bash" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
-        echo "screen_name=$\"gocq\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
-        echo "cmd1=$\"cd ${shloc}/go-cqhttp/\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
-        echo "cmd2=$\"./go-cqhttp faststart\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
-        echo "screen -dmS \$screen_name" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
-        echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
-        echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "scrn=\"${scrn}\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen -dmS \"\${scrn}\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen -x -S \"\${scrn}\" -p 0 -X stuff \"cd ${shloc}/go-cqhttp/ && ./go-cqhttp faststart\"" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
+        echo "screen -x -S \"\${scrn}\" -p 0 -X stuff '\\n'" >> "${shloc}/go-cqhttp/gocq@reboot.sh"
         (echo -e "@reboot ${shloc}/go-cqhttp/gocq@reboot.sh" ; crontab -l ) | crontab
         echo -e "${BOLD}${FBMAGENTA}已向 ${PLAIN}crontab -e ${FBMAGENTA}写入 ${PLAIN}${FMAGENTA}@reboot ${FYELLOW}${shloc}/go-cqhttp/gocq@reboot.sh${PLAIN}"
         echo -e "${BOLD}${FBYELLOW}在第二次设置自启前请确认已删除 ${PLAIN}${FBYELLOW}crontab -e 内的 ${PLAIN}${FMAGENTA}@reboot ${FYELLOW}${shloc}/go-cqhttp/gocq@reboot.sh${PLAIN}"
@@ -294,9 +288,9 @@ case $choosen in
 ;;
 10)
 #设置CQPS自启
-    checkfile=${shloc}/cq-picsearcher-bot/
+    checkfile="${shloc}/cq-picsearcher-bot/"
     if
-        test -d "$checkfile"
+        test -d "${checkfile}"
     then
         echo -e "${BOLD}${FBMAGENTA}CQPS启动后就会由pm2守护运行${PLAIN}"
         echo -e "${BOLD}${FBMAGENTA}所以说是不需要自启的${PLAIN}"
@@ -304,24 +298,17 @@ case $choosen in
         echo -e "${BOLD}${FBCYAN}  1.   Yes${PLAIN}"
         echo -e "${BOLD}${FBCYAN}  2.   No${PLAIN}"
         read -p "Type in the number to choose: " choosen
-        case $choosen in
+        case "${choosen}" in
         1)
         #Yes
             rm -rf "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
             touch "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            chmod +X "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            chmod +x "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
             echo "#!/bin/bash" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "screen_name=$\"CQPS\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "cmd1=$\"cd ${shloc}/cq-picsearcher-bot/\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "cmd2=$\"npm start\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "cmd3=$\"exit\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "screen -dmS \$screen_name" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd1\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd2\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "screen -x -S \$screen_name -p 0 -X stuff \"\$cmd3\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
-            echo "screen -x -S \$screen_name -p 0 -X stuff $'\\n'" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "scrn=\"cqps\${RANDOM}\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -dmS \"\${scrn}\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -x -S \"\${scrn}\" -p 0 -X stuff \"cd ${shloc}/cq-picsearcher-bot/ && npm start && exit\"" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
+            echo "screen -x -S \"\${scrn}\" -p 0 -X stuff '\\n'" >> "${shloc}/cq-picsearcher-bot/cqps@reboot.sh"
             (echo -e "@reboot ${shloc}/cq-picsearcher-bot/cqps@reboot.sh" ; crontab -l ) | crontab
             echo -e "${BOLD}${FBMAGENTA}已向 ${PLAIN}crontab -e ${FBMAGENTA}写入 ${PLAIN}${FMAGENTA}@reboot ${FYELLOW}${shloc}/cq-picsearcher-bot/cqps@reboot.sh${PLAIN}"
             echo -e "${BOLD}${FBYELLOW}在第二次设置自启前请确认已删除 ${PLAIN}crontab -e ${FBYELLOW}内的 ${PLAIN}${FMAGENTA}@reboot ${FYELLOW}${shloc}/cq-picsearcher-bot/cqps@reboot.sh${PLAIN}"
@@ -338,9 +325,9 @@ case $choosen in
 11)
 #部署go-cqhttp
     #判断是否二次部署
-    checkfile=${shloc}/go-cqhttp/
+    checkfile="${shloc}/go-cqhttp/"
     if
-        test -d "$checkfile"
+        test -d "${checkfile}"
     then
         mv "${shloc}/go-cqhttp/" "${shloc}/go-cqhttp.old/"
         echo -e "${BOLD}${FBMAGENTA}检测到存在${shloc}/go-cqhttp/文件夹，已备份为${shloc}/go-cqhttp.old/${PLAIN}"
@@ -348,25 +335,25 @@ case $choosen in
     mkdir "${shloc}/go-cqhttp/"
     mkdir "${shloc}/cqps.sh.download/"
     #判断架构
-    unamem=$(uname -m)
+    unamem="$(uname -m)"
     echo -e "${BOLD}${FBMAGENTA}系统架构为${unamem}${PLAIN}"
-    case $unamem in
+    case "${unamem}" in
     x86_64)
     #amd64
         echo -e "${BOLD}${FBMAGENTA}开始部署go-cqhttp_linux_amd64${PLAIN}"
-        wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta5/go-cqhttp_linux_amd64.tar.gz"
+        wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_amd64.tar.gz"
         tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_amd64.tar.gz" -C "${shloc}/go-cqhttp/"
     ;;
     aarch64)
     #ARMv8
         echo -e "${BOLD}${FBMAGENTA}开始部署go-cqhttp_linux_arm64${PLAIN}"
-        wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta5/go-cqhttp_linux_arm64.tar.gz"
+        wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_arm64.tar.gz"
         tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_arm64.tar.gz" -C "${shloc}/go-cqhttp/"
     ;;
     armv7l)
     #ARMv7
         echo -e "${BOLD}${FBMAGENTA}开始部署go-cqhttp_linux_armv7${PLAIN}"
-        wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta5/go-cqhttp_linux_armv7.tar.gz"
+        wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_armv7.tar.gz"
         tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_armv7.tar.gz" -C "${shloc}/go-cqhttp/"
     ;;
     *)
@@ -379,29 +366,29 @@ case $choosen in
         echo -e "${BOLD}${FBCYAN}  4.   i386${PLAIN}"
         echo -e ""
         read -p "Type in the number to choose: " choosen
-        case $choosen in
+        case "${choosen}" in
         1)
         #amd64
             echo -e "${BOLD}${FBMAGENTA}开始部署go-cqhttp_linux_amd64${PLAIN}"
-            wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta5/go-cqhttp_linux_amd64.tar.gz"
+            wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_amd64.tar.gz"
             tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_amd64.tar.gz" -C "${shloc}/go-cqhttp/"
         ;;
         2)
         #ARMv8
             echo -e "${BOLD}${FBMAGENTA}开始部署go-cqhttp_linux_arm64${PLAIN}"
-            wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta5/go-cqhttp_linux_arm64.tar.gz"
+            wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_arm64.tar.gz"
             tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_arm64.tar.gz" -C "${shloc}/go-cqhttp/"
         ;;
         3)
         #ARMv7
             echo -e "${BOLD}${FBMAGENTA}开始部署go-cqhttp_linux_armv7${PLAIN}"
-            wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta5/go-cqhttp_linux_armv7.tar.gz"
+            wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_armv7.tar.gz"
             tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_armv7.tar.gz" -C "${shloc}/go-cqhttp/"
         ;;
         4)
         #i386
             echo -e "${BOLD}${FBMAGENTA}开始部署go-cqhttp_linux_386${PLAIN}"
-            wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta5/go-cqhttp_linux_386.tar.gz"
+            wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_386.tar.gz"
             tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_386.tar.gz" -C "${shloc}/go-cqhttp/"
         ;;
         esac
@@ -421,7 +408,7 @@ case $choosen in
     echo -e "${BOLD}${FBCYAN}  2.   No${PLAIN}"
     echo -e ""
     read -p "Type in the number to choose: " choosen
-    case $choosen in
+    case "${choosen}" in
     1)
     #Yes
         echo -e "${BOLD}${FBMAGENTA}你选择了Yes${PLAIN}"
@@ -451,7 +438,7 @@ case $choosen in
         echo -e "${BOLD}${FBCYAN}  4.   warn(默认)(不含聊天记录)${PLAIN}"
         echo -e "${BOLD}${FBCYAN}  5.   error${PLAIN}"
         read -p "Type in the number to choose: " choosen
-        case $choosen in
+        case "${choosen}" in
         1)
         #trace
             sed -i 's|log-level: .*|log-level: trace|' "${shloc}/go-cqhttp/config.yml"
@@ -496,29 +483,29 @@ case $choosen in
 12)
 #部署CQPS
     #判断node
-    checkfile=/bin/node
+    checkfile="/bin/node"
     if
-        test -f "$checkfile"
+        test -f "${checkfile}"
     then
-        nodever=$(node -v)
-        case $nodever in
+        nodever="$(node -v)"
+        case "${nodever}" in
         v1[4-9].*)
             echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever}"
         ;;
         *)
             echo -e "${BOLD}${FBMAGENTA}当前nodejs版本: ${PLAIN}${nodever} ${BOLD}${FBMAGENTA}不符合cqps所要求的v14+，开始安装目前的lts版本${PLAIN}"
-            curl -fsSL https://${nodepac}.nodesource.com/setup_lts.x | sudo bash -
-            sudo ${pac} install -y nodejs
+            curl -fsSL "https://${nodepac}.nodesource.com/setup_lts.x" | sudo bash -
+            sudo "${pac}" install -y nodejs
             echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
         ;;
         esac
     else
-        curl -fsSL https://${nodepac}.nodesource.com/setup_lts.x | sudo bash -
-        sudo ${pac} install -y nodejs
+        curl -fsSL "https://${nodepac}.nodesource.com/setup_lts.x" | sudo bash -
+        sudo "${pac}" install -y nodejs
         echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
     fi
     #判断是否二次部署
-    checkfile=${shloc}/cq-picsearcher-bot/
+    checkfile="${shloc}/cq-picsearcher-bot/"
     if
         test -d "${checkfile}"
     then
@@ -534,7 +521,7 @@ case $choosen in
     echo -e "${BOLD}${FBCYAN}  2.   阿里镜像源${FAINT}(大陆)${PLAIN}"
     echo -e ""
     read -p "Type in the number to choose: " choosen
-    case $choosen in
+    case "${choosen}" in
     1)
     #官方源(海外)
         echo -e "${BOLD}${FBMAGENTA}你选择了官方源${PLAIN}"
@@ -565,7 +552,7 @@ case $choosen in
     echo -e "${BOLD}${FBCYAN}  2.   No${PLAIN}"
     echo -e ""
     read -p "Type in the number to choose: " choosen
-    case $choosen in
+    case "${choosen}" in
     1)
     #Yes
         echo -e "${BOLD}${FBMAGENTA}你选择了Yes${PLAIN}"
@@ -629,7 +616,7 @@ case $choosen in
     echo -e "${BOLD}${FBCYAN}  2.   false(默认)${PLAIN}"
     echo -e ""
     read -p "Type in the number to choose: " choosen
-    case $choosen in
+    case "${choosen}" in
     1)
     #true
         sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
@@ -650,11 +637,11 @@ case $choosen in
     #判断go-cqhttp进程是否存在
     gcpc=`ps -ef | grep -w go-cqhttp | grep -v grep | wc -l`
     if
-        [ $gcpc = 0 ]
+        [ "${gcpc}" = "0" ]
     then
         checkfile=${shloc}/go-cqhttp/
         if
-            test -d "$checkfile"
+            test -d "${checkfile}"
         then
             rm -rf "${shloc}/go-cqhttp/"
             echo -e "${BOLD}${FBMAGENTA}DONE${PLAIN}"
@@ -662,14 +649,14 @@ case $choosen in
             echo -e "${BOLD}${FBRED}go-cqhttp未部署${PLAIN}"
         fi
     else
-        cho -e "${BOLD}${FBYELLOW}go-cqhttp正在运行中${PLAIN}"
+        echo -e "${BOLD}${FBYELLOW}go-cqhttp正在运行中${PLAIN}"
     fi
 ;;
 14)
 #删除CQPS
-    checkfile=${shloc}/cq-picsearcher-bot/
+    checkfile="${shloc}/cq-picsearcher-bot/"
     if
-        test -d "$checkfile"
+        test -d "${checkfile}"
     then
         cd "${shloc}/cq-picsearcher-bot/"
         npm stop
@@ -696,7 +683,7 @@ case $choosen in
     echo -e "${BBLACK}------------------------------------------------${PLAIN}"
     echo -e ""
     read -p "Type in the number to choose: " choosen
-    case $choosen in
+    case "${choosen}" in
     1)
     #(大概率能)修复CQPS无法启动
         cd "${shloc}/cq-picsearcher-bot/"
@@ -712,7 +699,7 @@ case $choosen in
         echo -e "${BOLD}${FBCYAN}  4.   warn(默认)(不含聊天记录)${PLAIN}"
         echo -e "${BOLD}${FBCYAN}  5.   error${PLAIN}"
         read -p "Type in the number to choose: " choosen
-        case $choosen in
+        case "${choosen}" in
         1)
         #trace
             sed -i 's|log-level: .*|log-level: trace|' "${shloc}/go-cqhttp/config.yml"
@@ -746,12 +733,12 @@ case $choosen in
     4)
     #自动备份go-cqhttp日志
         echo -e "${BOLD}${FBMAGENTA}这是一个已弃用的功能${PLAIN}"
-        echo -e "${BOLD}${FBMAGENTA}go-cqhttp v1.0.0-beta5可以设置永久保留日志${PLAIN}"
+        echo -e "${BOLD}${FBMAGENTA}go-cqhttp v1.0.0-beta6可以设置永久保留日志${PLAIN}"
         echo -e "${BOLD}${FBCYAN}当然你要是真的有这个需求也不是不能设${PLAIN}"
         echo -e "${BOLD}${FBCYAN}  1.   Enable${PLAIN}"
         echo -e "${BOLD}${FBCYAN}  2.   Disable${PLAIN}"
         read -p "Type in the number to choose: " choosen
-        case $choosen in
+        case "${choosen}" in
         1)
         #Enable
             mkdir "${shloc}/go-cqhttp/logs.old/"
@@ -773,7 +760,7 @@ case $choosen in
         echo -e "${BOLD}${FBCYAN}  1.   Enable${PLAIN}"
         echo -e "${BOLD}${FBCYAN}  2.   Disable${PLAIN}"
         read -p "Type in the number to choose: " choosen
-        case $choosen in
+        case "${choosen}" in
         1)
         #Enable
             sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
@@ -790,9 +777,9 @@ case $choosen in
     #通过二进制文件安装nodejs
         mkdir "${shloc}/cqps.sh.download/"
         #判断架构
-        unamem=$(uname -m)
+        unamem="$(uname -m)"
         echo -e "${BOLD}${FBMAGENTA}系统架构为${unamem}${PLAIN}"
-        case $unamem in
+        case "${unamem}" in
         x86_64)
         #amd64
             echo -e "${FBMAGENTA}开始安装node-v14.17.3-linux-x64${PLAIN}"
@@ -838,7 +825,7 @@ case $choosen in
             echo -e "${BOLD}${FBCYAN}  3.   ARMv7${PLAIN}"
             echo -e ""
             read -p "Type in the number to choose: " choosen
-            case $choosen in
+            case "${choosen}" in
             1)
             #amd64
                 echo -e "${FBMAGENTA}开始安装node-v14.17.3-linux-x64${PLAIN}"
