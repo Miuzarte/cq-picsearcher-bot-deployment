@@ -40,7 +40,7 @@ BBCYAN="\e[106m"       #背景亮青色${BBCYAN}
 BBWHITE="\e[107m"      #背景亮灰色${BBWHITE}
 shloc="$(cd `dirname $0`; pwd)"    #脚本所在绝对路径${shloc}
 lctime="$(date "+%Y年%m月%d日%H时%M分%S秒")"    #脚本启动时时间${lctime}
-scrn="gocq"    #go-cqhtto的screen名
+scrn="gocq"    #go-cqhttp的screen名
 echoE() {   #转义echo
     echo -e "${BOLD}${1}${2}${3}${4}${PLAIN}"
 }
@@ -176,7 +176,7 @@ else
 fi
 echoE "------------------------------------------------"
 echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-echoE "更新时间 2021/08/15-Sun"
+echoE "更新时间 2021/09/11-Sat"
 echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
 echoE "------------------------------------------------"
 echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
