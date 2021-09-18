@@ -47,6 +47,14 @@ echoE() {   #转义echo
 readP() {   #输入
     read -p "${1}" ${2}
 }
+agmwait() { #参数执行等待
+    if
+        [ "${agmornot}" = "1" ]
+    then
+        echoE ${FBMAGENTA} "将在2s后执行"
+        sleep 2s
+    fi
+}
 gocqDL() {  #go-cqhttp下载
     echoE ${FBMAGENTA} "开始部署go-cqhttp_linux_${1}"
     wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_${1}.tar.gz"
@@ -164,47 +172,60 @@ then
     echoE ${FBMAGENTA} "需要安装crontab命令！"
     sudo "${pac}" install -y crontab
 fi
-#判断权限
-rootornot="$(id | awk '{print $1}')"
-clear
 if
-    [[ "${rootornot}" = *"id=0"*"root"* ]];
+    [ "${1}" = "" ]
 then
-    echoE ${FBGREEN} "root"
+    #判断权限
+    rootornot="$(id | awk '{print $1}')"
+    clear
+    if
+        [[ "${rootornot}" = *"id=0"*"root"* ]];
+    then
+        echoE ${FBGREEN} "root"
+    else
+        echoE ${FBYELLOW} "建议以root身份执行该脚本"
+    fi
+    echoE "------------------------------------------------"
+    echoE "cq-picsearcher-bot 懒人部署&管理脚本"
+    echoE "更新时间 2021/09/19-Sun"
+    echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
+    echoE "------------------------------------------------"
+    echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
+    echoE ${FBCYAN} "  2.   ${FBGREEN}启动CQPS"
+    echoE ${FBLACK} "------------------------------------------------"
+    echoE ${FBCYAN} "  3.   ${FBRED}关闭go-cqhttp"
+    echoE ${FBCYAN} "  4.   ${FBRED}关闭CQPS"
+    echoE ${FBLACK} "------------------------------------------------"
+    echoE ${FBCYAN} "  5.   ${FBYELLOW}查看go-cqhttp${FBYELLOW}最新日志"
+    echoE ${FBCYAN} "  6.   ${FBYELLOW}查看CQPS${FBYELLOW}     最新日志"
+    echoE ${FBLACK} "------------------------------------------------"
+    echoE ${FBCYAN} "  7.   ${FBMAGENTA}${FAINT}更新go-cqhttp"
+    echoE ${FBCYAN} "  8.   ${FBMAGENTA}更新CQPS"
+    echoE ${FBLACK} "------------------------------------------------"
+    echoE ${FBCYAN} "  9.   ${FBBLUE}设置go-cqhttp crontab@reboot${FBBLUE}自启"
+    echoE ${FBCYAN} "  10.  ${FBBLUE}设置CQPS      crontab@reboot${FBBLUE}自启"
+    echoE ${FBLACK} "------------------------------------------------"
+    echoE ${FBCYAN} "  11.  ${FBMAGENTA}部署go-cqhttp"
+    echoE ${FBCYAN} "  12.  ${FBMAGENTA}部署CQPS"
+    echoE ${FBLACK} "------------------------------------------------"
+    echoE ${FBCYAN} "  13.  ${FRED}删除go-cqhttp"
+    echoE ${FBCYAN} "  14.  ${FRED}删除CQPS"
+    echoE ${FBLACK} "------------------------------------------------"
+    echoE ${FBCYAN} "  15.  其他选项"
+    echoE ${FBCYAN} "  16.  显示项目信息"
+    echoE "------------------------------------------------"
+    echoE ""
+    readP "Type in the number to choose: " choosen
 else
-    echoE ${FBYELLOW} "建议以root身份执行该脚本"
+    if
+        ! [[ "${1}" =~ ^[1-8]$|^1[5-6]$ ]]
+    then
+        echoE ${FBRED} "为防止误触发 参数执行仅支持选项1-8,15-16!"
+    else
+        choosen="${1}"
+        agmornot="1"
+    fi
 fi
-echoE "------------------------------------------------"
-echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-echoE "更新时间 2021/09/11-Sat"
-echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
-echoE "------------------------------------------------"
-echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
-echoE ${FBCYAN} "  2.   ${FBGREEN}启动CQPS"
-echoE ${FBLACK} "------------------------------------------------"
-echoE ${FBCYAN} "  3.   ${FBRED}关闭go-cqhttp"
-echoE ${FBCYAN} "  4.   ${FBRED}关闭CQPS"
-echoE ${FBLACK} "------------------------------------------------"
-echoE ${FBCYAN} "  5.   ${FBYELLOW}查看go-cqhttp${FBYELLOW}最新日志"
-echoE ${FBCYAN} "  6.   ${FBYELLOW}查看CQPS${FBYELLOW}     最新日志"
-echoE ${FBLACK} "------------------------------------------------"
-echoE ${FBCYAN} "  7.   ${FBMAGENTA}${FAINT}更新go-cqhttp"
-echoE ${FBCYAN} "  8.   ${FBMAGENTA}更新CQPS"
-echoE ${FBLACK} "------------------------------------------------"
-echoE ${FBCYAN} "  9.   ${FBBLUE}设置go-cqhttp crontab@reboot${FBBLUE}自启"
-echoE ${FBCYAN} "  10.  ${FBBLUE}设置CQPS      crontab@reboot${FBBLUE}自启"
-echoE ${FBLACK} "------------------------------------------------"
-echoE ${FBCYAN} "  11.  ${FBMAGENTA}部署go-cqhttp"
-echoE ${FBCYAN} "  12.  ${FBMAGENTA}部署CQPS"
-echoE ${FBLACK} "------------------------------------------------"
-echoE ${FBCYAN} "  13.  ${FRED}删除go-cqhttp"
-echoE ${FBCYAN} "  14.  ${FRED}删除CQPS"
-echoE ${FBLACK} "------------------------------------------------"
-echoE ${FBCYAN} "  15.  其他选项"
-echoE ${FBCYAN} "  16.  显示项目信息"
-echoE "------------------------------------------------"
-echoE ""
-readP "Type in the number to choose: " choosen
 case "${choosen}" in
 1)
 #启动go-cqhttp
@@ -213,6 +234,8 @@ case "${choosen}" in
     if
         [ "${gcpc}" = "0" ]
     then
+        echoE ${FBMAGENTA} "启动go-cqhttp"
+        agmwait
         screen -S "${scrn}" -X quit
         screen -dmS "${scrn}"
         screen -x -S "${scrn}" -p 0 -X stuff "cd ${shloc}/go-cqhttp/"
@@ -226,6 +249,8 @@ case "${choosen}" in
 ;;
 2)
 #启动CQPS
+    echoE ${FBMAGENTA} "启动CQPS"
+    agmwait
     cd "${shloc}/cq-picsearcher-bot/"
     npm start
     echoE ${FBMAGENTA} "DONE"
@@ -239,6 +264,8 @@ case "${choosen}" in
     then
         echoE ${FBYELLOW} "go-cqhttp没有在运行"
     else
+        echoE ${FBMAGENTA} "关闭go-cqhttp"
+        agmwait
         killall "go-cqhttp"
         screen -S "${scrn}" -X quit
         echoE ${FBMAGENTA} "DONE"
@@ -246,6 +273,8 @@ case "${choosen}" in
 ;;
 4)
 #关闭CQPS
+    echoE ${FBMAGENTA} "关闭CQPS"
+    agmwait
     cd "${shloc}/cq-picsearcher-bot/"
     npm stop
     echoE ${FBMAGENTA} "DONE"
