@@ -57,7 +57,7 @@ agmwait() { #参数执行等待
 }
 gocqDL() {  #go-cqhttp下载
     echoE ${FBMAGENTA} "开始部署go-cqhttp_linux_${1}"
-    wget -P "${shloc}/cqps.sh.download/" "https://github.com.cnpmjs.org/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_${1}.tar.gz"
+    wget -P "${shloc}/cqps.sh.download/" "https://github.com/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_${1}.tar.gz"
     tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_${1}.tar.gz" -C "${shloc}/go-cqhttp/"
 }
 logSED() {  #log等级设置
@@ -187,7 +187,7 @@ then
     fi
     echoE "------------------------------------------------"
     echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-    echoE "更新时间 2021/09/19-Sun"
+    echoE "更新时间 2021/10/06-Wed"
     echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
     echoE "------------------------------------------------"
     echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
@@ -340,7 +340,6 @@ case "${choosen}" in
 #更新CQPS
     cd "${shloc}/cq-picsearcher-bot/"
     npm stop
-    git config --global https.https://github.com.proxy url."https://github.com.cnpmjs.org/".insteadOf https://github.com/
     git fetch --all
     git reset --hard origin/master
     git pull
@@ -576,7 +575,7 @@ case "${choosen}" in
         mv "${shloc}/cq-picsearcher-bot/" "${shloc}/cq-picsearcher-bot.old/"
         echoE ${FBMAGENTA} "检测到存在${shloc}/cq-picsearcher-bot/文件夹，已备份为${shloc}/cq-picsearcher-bot.old/"
     fi
-    git clone "https://github.com.cnpmjs.org/Tsuk1ko/cq-picsearcher-bot"
+    git clone "https://github.com/Tsuk1ko/cq-picsearcher-bot"
     cp "${shloc}/cq-picsearcher-bot/config.default.jsonc" "${shloc}/cq-picsearcher-bot/config.jsonc"
     cd "${shloc}/cq-picsearcher-bot/"
     echoE ""
