@@ -56,22 +56,24 @@ agmwait() { #参数执行等待
     fi
 }
 gocqDL() {  #go-cqhttp下载
+    gocqver="v1.0.0-beta7-fix2"
     echoE ${FBMAGENTA} "开始部署go-cqhttp_linux_${1}"
-    wget -P "${shloc}/cqps.sh.download/" "https://github.com/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta6/go-cqhttp_linux_${1}.tar.gz"
+    wget -P "${shloc}/cqps.sh.download/" "https://hub.fastgit.org/Mrs4s/go-cqhttp/releases/download/${gocqver}/go-cqhttp_linux_${1}.tar.gz"
     tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_${1}.tar.gz" -C "${shloc}/go-cqhttp/"
 }
 logSED() {  #log等级设置
     sed -i 's|log-level: .*|log-level: '"${1}"'|' "${shloc}/go-cqhttp/config.yml"
 }
 nodejsDL() {    #nodejs下载
-    echoE ${FBMAGENTA} "开始安装node-v14.17.6-linux-${1}"
-    wget -P "${shloc}/cqps.sh.download/" "https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-${1}.tar.xz"
-    xz -d "${shloc}/cqps.sh.download/node-v14.17.6-linux-${1}.tar.xz"
-    tar -xvf "${shloc}/cqps.sh.download/node-v14.17.6-linux-${1}.tar" -C "${shloc}/cqps.sh.download/"
-    cp -r "${shloc}/cqps.sh.download/node-v14.17.6-linux-${1}/bin/" "/usr/"
-    cp -r "${shloc}/cqps.sh.download/node-v14.17.6-linux-${1}/include/" "/usr/"
-    cp -r "${shloc}/cqps.sh.download/node-v14.17.6-linux-${1}/lib/" "/usr/"
-    cp -r "${shloc}/cqps.sh.download/node-v14.17.6-linux-${1}/share/" "/usr/"
+    nodejsver="v14.18.1"
+    echoE ${FBMAGENTA} "开始安装node-${nodejsver}-linux-${1}"
+    wget -P "${shloc}/cqps.sh.download/" "https://nodejs.org/dist/${nodejsver}/node-${nodejsver}-linux-${1}.tar.xz"
+    xz -d "${shloc}/cqps.sh.download/node-${nodejsver}-linux-${1}.tar.xz"
+    tar -xvf "${shloc}/cqps.sh.download/node-${nodejsver}-linux-${1}.tar" -C "${shloc}/cqps.sh.download/"
+    cp -r "${shloc}/cqps.sh.download/node-${nodejsver}-linux-${1}/bin/" "/usr/"
+    cp -r "${shloc}/cqps.sh.download/node-${nodejsver}-linux-${1}/include/" "/usr/"
+    cp -r "${shloc}/cqps.sh.download/node-${nodejsver}-linux-${1}/lib/" "/usr/"
+    cp -r "${shloc}/cqps.sh.download/node-${nodejsver}-linux-${1}/share/" "/usr/"
     rm -rf "${shloc}/cqps.sh.download/"
 }
 yarnDF() {  #海外yarn
@@ -83,6 +85,9 @@ yarnALI() { #阿里yarn
     yarn config set registry https://registry.npm.taobao.org --global
     yarn config set disturl https://npm.taobao.org/dist --global
     yarn
+}
+echoDONE() {
+    echoE ${FBMAGENTA} "DONE"
 }
 echoYES1() {
     echoE ${FBMAGENTA} "你选择了Yes"
@@ -187,7 +192,7 @@ then
     fi
     echoE "------------------------------------------------"
     echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-    echoE "更新时间 2021/10/06-Wed"
+    echoE "更新时间 2021/10/13-Wed"
     echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
     echoE "------------------------------------------------"
     echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
@@ -253,7 +258,7 @@ case "${choosen}" in
     agmwait
     cd "${shloc}/cq-picsearcher-bot/"
     npm start
-    echoE ${FBMAGENTA} "DONE"
+    echoDONE
 ;;
 3)
 #关闭go-cqhttp
@@ -268,7 +273,7 @@ case "${choosen}" in
         agmwait
         killall "go-cqhttp"
         screen -S "${scrn}" -X quit
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     fi
 ;;
 4)
@@ -277,7 +282,7 @@ case "${choosen}" in
     agmwait
     cd "${shloc}/cq-picsearcher-bot/"
     npm stop
-    echoE ${FBMAGENTA} "DONE"
+    echoDONE
 ;;
 5)
 #查看go-cqhttp最新日志
@@ -344,7 +349,7 @@ case "${choosen}" in
     git reset --hard origin/master
     git pull
     npm start
-    echoE ${FBMAGENTA} "DONE"
+    echoDONE
 ;;
 9)
 #设置go-cqhttp自启
@@ -396,7 +401,7 @@ case "${choosen}" in
         ;;
         2)
         #No
-            echoE ${FBMAGENTA} "DONE"
+            echoDONE
         ;;
         esac
     else
@@ -528,7 +533,7 @@ case "${choosen}" in
         echoE ${FBGREEN} "// 单位天，设置为 0 表示永久保留"
         readP "log-aging: " input
         sed -i 's|log-aging: .*|log-aging: '"${input}"'|' "${shloc}/go-cqhttp/config.yml"
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     ;;
     2)
     #No
@@ -539,7 +544,7 @@ case "${choosen}" in
         echoNO2
     ;;
     esac
-    echoE ${FBCYAN} "部署结束，将进行首次启动验证登录，确认登录成功之后 'Ctrl + C' 退出，然后重新运行脚本选项1"
+    echoE ${FBCYAN} "部署结束，将进行首次启动验证登录，确认登录成功之后 'Ctrl + C' 退出，然后重新运行\"./cqps.sh 1\""
     echoE ${FBCYAN} "回车继续"
     ./go-cqhttp faststart
 ;;
@@ -559,13 +564,13 @@ case "${choosen}" in
             echoE ${FBMAGENTA} "当前nodejs版本: ${nodever} ${FBMAGENTA}不符合cqps所要求的v14+，开始安装目前的lts版本"
             curl -fsSL "https://${nodepac}.nodesource.com/setup_lts.x" | sudo bash -
             sudo "${pac}" install -y nodejs
-            echoE ${FBMAGENTA} "DONE"
+            echoDONE
         ;;
         esac
     else
         curl -fsSL "https://${nodepac}.nodesource.com/setup_lts.x" | sudo bash -
         sudo "${pac}" install -y nodejs
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     fi
     #判断是否二次部署
     checkfile="${shloc}/cq-picsearcher-bot/"
@@ -575,7 +580,7 @@ case "${choosen}" in
         mv "${shloc}/cq-picsearcher-bot/" "${shloc}/cq-picsearcher-bot.old/"
         echoE ${FBMAGENTA} "检测到存在${shloc}/cq-picsearcher-bot/文件夹，已备份为${shloc}/cq-picsearcher-bot.old/"
     fi
-    git clone "https://github.com/Tsuk1ko/cq-picsearcher-bot"
+    git clone "https://hub.fastgit.org/Tsuk1ko/cq-picsearcher-bot"
     cp "${shloc}/cq-picsearcher-bot/config.default.jsonc" "${shloc}/cq-picsearcher-bot/config.jsonc"
     cd "${shloc}/cq-picsearcher-bot/"
     echoE ""
@@ -687,6 +692,7 @@ case "${choosen}" in
         echoFALSE2
     ;;
     esac
+    echoDONE
 ;;
 13)
 #删除go-cqhttp
@@ -700,7 +706,7 @@ case "${choosen}" in
             test -d "${checkfile}"
         then
             rm -rf "${shloc}/go-cqhttp/"
-            echoE ${FBMAGENTA} "DONE"
+            echoDONE
         else
             echoE ${FBRED} "go-cqhttp未部署"
         fi
@@ -718,7 +724,7 @@ case "${choosen}" in
         npm stop
         npx pm2 kill
         rm -rf "${shloc}/cq-picsearcher-bot/"
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     else
         echoE ${FBRED} "cq-picsearcher-bot未部署"
     fi
@@ -744,7 +750,7 @@ case "${choosen}" in
     #(大概率能)修复CQPS无法启动
         cd "${shloc}/cq-picsearcher-bot/"
         npx pm2 kill
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     ;;
     2)
     #设置go-cqhttp日志等级
@@ -777,14 +783,14 @@ case "${choosen}" in
             logSED error
         ;;
         esac
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     ;;
     3)
     #设置go-cqhttp日志保留时长
         echoE ${FBGREEN} "// 单位天，设置为 0 表示永久保留"
         readP "log-aging: " input
         sed -i 's|log-aging: .*|log-aging: '"${input}"'|' "${shloc}/go-cqhttp/config.yml"
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     ;;
     4)
     #自动备份go-cqhttp日志
@@ -802,12 +808,12 @@ case "${choosen}" in
             chmod +x "/etc/cron.hourly/gocqlogs.sh"
             echo -e "cp -rf ${shloc}/go-cqhttp/logs/* ${shloc}/go-cqhttp/logs.old/" >> "/etc/cron.hourly/gocqlogs.sh"
             echoE ${FBMAGENTA} "系统将会每小时把${shloc}/go-cqhttp/logs/内的文件复制到${shloc}/go-cqhttp/logs.old/"
-            echoE ${FBMAGENTA} "DONE"
+            echoDONE
         ;;
         2)
         #Disable
             rm -f "/etc/cron.hourly/gocqlogs.sh"
-            echoE ${FBMAGENTA} "DONE"
+            echoDONE
         ;;
         esac
     ;;
@@ -820,12 +826,12 @@ case "${choosen}" in
         1)
         #Enable
             sed -i 's|"autoUpdateConfig": false,|"autoUpdateConfig": true,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-            echoE ${FBMAGENTA} "DONE"
+            echoDONE
         ;;
         2)
         #Disable
             sed -i 's|"autoUpdateConfig": true,|"autoUpdateConfig": false,|' "${shloc}/cq-picsearcher-bot/config.jsonc"
-            echoE ${FBMAGENTA} "DONE"
+            echoDONE
         ;;
         esac
     ;;
@@ -875,7 +881,7 @@ case "${choosen}" in
             esac
         ;;
         esac
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     ;;
     7)
     #卸载通过二进制文件安装的nodejs
@@ -888,7 +894,7 @@ case "${choosen}" in
         rm -rf "/usr/share/doc/node/"
         rm -rf "/usr/share/man/man1/node.1"
         rm -rf "/usr/share/systemtap/tapset/node.stp"
-        echoE ${FBMAGENTA} "DONE"
+        echoDONE
     ;;
     esac
 ;;
