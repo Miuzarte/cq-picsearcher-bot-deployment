@@ -20,4 +20,6 @@ __[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://git
 
 #### 现在有了 [[release]](https://github.com/Miuzarte/cq-picsearcher-bot-deployment/releases)
 
+Windows sub Linux一代实测可用, 二代虚拟化更不可能有问题
+
 更新随缘，理论上是不会停更
