@@ -55,18 +55,52 @@ agmwait() { #参数执行等待
         sleep 2s
     fi
 }
+network() {  #网络连通性
+    echoE ${FBCYAN} "本机网络是否会经过Great Firewall？"
+    echoE ${FBCYAN} "  1.   Yes"
+    echoE ${FBCYAN} "  2.   No"
+    readP "Type in the number to choose: " choosen
+    case "${choosen}" in
+    1)
+    #Yes
+        echoYES1
+        giturl="hub.fastgit.org"
+        yarnsource="ALI"
+    ;;
+    2)
+    #No
+        echoNO1
+        giturl="github.com"
+        yarnsource="DF"
+    ;;
+    *)
+    #Yes
+        echoYES2
+        giturl="hub.fastgit.org"
+        yarnsource="ALI"
+    ;;
+    esac
+}
 gocqDL() {  #go-cqhttp下载
-    gocqver="v1.0.0-beta7-fix2"
+    gocqver="v1.0.0-beta8-fix1"
     echoE ${FBMAGENTA} "开始部署go-cqhttp_linux_${1}"
-    wget -P "${shloc}/cqps.sh.download/" "https://hub.fastgit.org/Mrs4s/go-cqhttp/releases/download/${gocqver}/go-cqhttp_linux_${1}.tar.gz"
+    mkdir "${shloc}/cqps.sh.download/"
+    wget -P "${shloc}/cqps.sh.download/" "https://${giturl}//Mrs4s/go-cqhttp/releases/download/${gocqver}/go-cqhttp_linux_${1}.tar.gz"
+    mkdir "${shloc}/go-cqhttp/"
     tar -zxvf "${shloc}/cqps.sh.download/go-cqhttp_linux_${1}.tar.gz" -C "${shloc}/go-cqhttp/"
+    rm -rf "${shloc}/cqps.sh.download/"
 }
 logSED() {  #log等级设置
     sed -i 's|log-level: .*|log-level: '"${1}"'|' "${shloc}/go-cqhttp/config.yml"
 }
+nodejsIns() {    #nodejs安装
+    curl -sL https://${nodepac}.nodesource.com/setup_14.x | sudo bash -
+    sudo "${pac}" install -y nodejs
+}
 nodejsDL() {    #nodejs下载
     nodejsver="v14.18.1"
     echoE ${FBMAGENTA} "开始安装node-${nodejsver}-linux-${1}"
+    mkdir "${shloc}/cqps.sh.download/"
     wget -P "${shloc}/cqps.sh.download/" "https://nodejs.org/dist/${nodejsver}/node-${nodejsver}-linux-${1}.tar.xz"
     xz -d "${shloc}/cqps.sh.download/node-${nodejsver}-linux-${1}.tar.xz"
     tar -xvf "${shloc}/cqps.sh.download/node-${nodejsver}-linux-${1}.tar" -C "${shloc}/cqps.sh.download/"
@@ -86,37 +120,40 @@ yarnALI() { #阿里yarn
     yarn config set disturl https://npm.taobao.org/dist --global
     yarn
 }
-echoDONE() {
+echoDONE() {    #DONE
     echoE ${FBMAGENTA} "DONE"
 }
-echoYES1() {
+echoYES1() {    #你选择了Yes
     echoE ${FBMAGENTA} "你选择了Yes"
 }
-echoNO1() {
+echoYES2() {    #默认选择Yes
+    echoE ${FBMAGENTA} "默认选择Yes"
+}
+echoNO1() {    #你选择了No
     echoE ${FBMAGENTA} "你选择了No"
 }
-echoNO2() {
+echoNO2() {    #默认选择No
     echoE ${FBMAGENTA} "默认选择No"
 }
-echoTRUE1() {
+echoTRUE1() {   #你选择了True
     echoE ${FBMAGENTA} "你选择了True"
 }
-echoFALSE1() {
+echoFALSE1() {  #你选择了False
     echoE ${FBMAGENTA} "你选择了False"
 }
-echoFALSE2() {
+echoFALSE2() {  #默认选择False
     echoE ${FBMAGENTA} "默认选择False"
 }
 #判断包管理器sudo "${pac}" install -y
 lsbfile="/etc/lsb-release"
 rhfile="/etc/redhat-release"
 if
-    test -f "$lsbfile"
+    test -f "${lsbfile}"
 then
     pac="apt"
     nodepac="deb"
 elif
-    test -f "$rhfile"
+    test -f "${rhfile}"
 then
     pac="yum"
     nodepac="rpm"
@@ -192,7 +229,7 @@ then
     fi
     echoE "------------------------------------------------"
     echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-    echoE "更新时间 2021/10/13-Wed"
+    echoE "更新时间 2021/11/21-Sun"
     echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
     echoE "------------------------------------------------"
     echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
@@ -410,17 +447,16 @@ case "${choosen}" in
 ;;
 11)
 #部署go-cqhttp
+    rm -rf "${shloc}/cqps.sh.download/"
     #判断是否二次部署
     checkfile="${shloc}/go-cqhttp/"
     if
         test -d "${checkfile}"
     then
-        mv "${shloc}/go-cqhttp/" "${shloc}/go-cqhttp.old/"
         echoE ${FBMAGENTA} "检测到存在${shloc}/go-cqhttp/文件夹，已备份为${shloc}/go-cqhttp.old/"
+        mv "${shloc}/go-cqhttp/" "${shloc}/go-cqhttp.old/"
     fi
-    mkdir "${shloc}/go-cqhttp/"
-    rm -rf "${shloc}/cqps.sh.download/"
-    mkdir "${shloc}/cqps.sh.download/"
+    network
     #判断架构
     unamem="$(uname -m)"
     echoE ${FBMAGENTA} "系统架构为${unamem}"
@@ -462,7 +498,6 @@ case "${choosen}" in
         esac
     ;;
     esac
-    rm -rf "${shloc}/cqps.sh.download/"
     chmod +x "${shloc}/go-cqhttp/go-cqhttp"
     cd "${shloc}/go-cqhttp/"
     echoE ${FBCYAN} "接下来请选择"
@@ -550,26 +585,40 @@ case "${choosen}" in
 ;;
 12)
 #部署CQPS
+    rm -rf "${shloc}/cqps.sh.download/"
     #判断node
     checkfile="/bin/node"
     if
         test -f "${checkfile}"
     then
         nodever="$(node -v)"
+        echoE ${FBMAGENTA} "当前nodejs版本: ${nodever}"
         case "${nodever}" in
-        v1[4-9].*)
-            echoE ${FBMAGENTA} "当前nodejs版本: ${nodever}"
+        v14.*)
+            echoE ${FBGREEN} "OK"
         ;;
         *)
-            echoE ${FBMAGENTA} "当前nodejs版本: ${nodever} ${FBMAGENTA}不符合cqps所要求的v14+，开始安装目前的lts版本"
-            curl -fsSL "https://${nodepac}.nodesource.com/setup_lts.x" | sudo bash -
-            sudo "${pac}" install -y nodejs
+            echoE ${FBCYAN} "建议的版本是v14.x，是否覆盖安装当前版本？"
+            echoE ${FBCYAN} "  1.   Yes"
+            echoE ${FBCYAN} "  2.   继续使用当前nodejs版本"
+            echoE ""
+            readP "Type in the number to choose: " choosen
+            case "${choosen}" in
+            1)
+            #Yes
+                echoYES1
+                nodejsIns
+            ;;
+            *)
+            #No
+                echoNO1
+            ;;
+            esac
             echoDONE
         ;;
         esac
     else
-        curl -fsSL "https://${nodepac}.nodesource.com/setup_lts.x" | sudo bash -
-        sudo "${pac}" install -y nodejs
+        nodejsIns
         echoDONE
     fi
     #判断是否二次部署
@@ -580,29 +629,17 @@ case "${choosen}" in
         mv "${shloc}/cq-picsearcher-bot/" "${shloc}/cq-picsearcher-bot.old/"
         echoE ${FBMAGENTA} "检测到存在${shloc}/cq-picsearcher-bot/文件夹，已备份为${shloc}/cq-picsearcher-bot.old/"
     fi
-    git clone "https://hub.fastgit.org/Tsuk1ko/cq-picsearcher-bot"
+    network
+    git clone "https://${giturl}/Tsuk1ko/cq-picsearcher-bot"
     cp "${shloc}/cq-picsearcher-bot/config.default.jsonc" "${shloc}/cq-picsearcher-bot/config.jsonc"
     cd "${shloc}/cq-picsearcher-bot/"
-    echoE ""
-    echoE ${FBCYAN} "选择yarn源"
-    echoE ${FBCYAN} "  1.   官方源${FAINT}(海外)"
-    echoE ${FBCYAN} "  2.   阿里镜像源${FAINT}(大陆)"
-    echoE ""
-    readP "Type in the number to choose: " choosen
-    case "${choosen}" in
-    1)
-    #官方源(海外)
-        echoE ${FBMAGENTA} "你选择了官方源"
-        yarnDF
-    ;;
-    2)
+    case "${yarnsource}" in
+    ALI)
     #阿里镜像源(大陆)
-        echoE ${FBMAGENTA} "你选择了阿里镜像源"
-        yarnDF
+        yarnALI
     ;;
-    *)
-    #Default
-        echoE ${FBMAGENTA} "默认选择阿里镜像源"
+    DF)
+    #官方源(海外)
         yarnDF
     ;;
     esac
@@ -795,7 +832,7 @@ case "${choosen}" in
     4)
     #自动备份go-cqhttp日志
         echoE ${FBMAGENTA} "这是一个已弃用的功能"
-        echoE ${FBMAGENTA} "go-cqhttp v1.0.0-beta6可以设置永久保留日志"
+        echoE ${FBMAGENTA} "目前go-cqhttp可以设置永久保留日志"
         echoE ${FBCYAN} "当然你要是真的有这个需求也不是不能设"
         echoE ${FBCYAN} "  1.   Enable"
         echoE ${FBCYAN} "  2.   Disable"
@@ -837,8 +874,6 @@ case "${choosen}" in
     ;;
     6)
     #通过二进制文件安装nodejs
-        rm -rf "${shloc}/cqps.sh.download/"
-        mkdir "${shloc}/cqps.sh.download/"
         #判断架构
         unamem="$(uname -m)"
         echoE ${FBMAGENTA} "系统架构为${unamem}"
