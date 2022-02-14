@@ -82,7 +82,7 @@ network() {  #网络连通性
     esac
 }
 gocqDL() {  #go-cqhttp下载
-    gocqver="v1.0.0-beta8-fix1"
+    gocqver="v1.0.0-rc1"
     echoE ${FBMAGENTA} "开始部署go-cqhttp_linux_${1}"
     mkdir "${shloc}/cqps.sh.download/"
     wget -P "${shloc}/cqps.sh.download/" "https://${giturl}//Mrs4s/go-cqhttp/releases/download/${gocqver}/go-cqhttp_linux_${1}.tar.gz"
@@ -229,7 +229,7 @@ then
     fi
     echoE "------------------------------------------------"
     echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-    echoE "更新时间 2021/11/21-Sun"
+    echoE "更新时间 2021/2/14-Mon"
     echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
     echoE "------------------------------------------------"
     echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
