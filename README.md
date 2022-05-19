@@ -1,5 +1,9 @@
 # cq-picsearcher-bot-deployment
 
+虽然这是个小白向的教程/脚本，但我仍希望您在拥有最基础的Linux知识后再阅读/使用
+
+例如：切换至root用户、基础的文件操作、chmod命令等
+
 ## 项目地址:
 
 ### go-cqhttp: 
