@@ -66,6 +66,7 @@ network() {  #网络连通性
         echoYES1
         giturl="hub.fastgit.org"
         yarnsource="ALI"
+        echoE ${FBCYAN} "出现无法搜图、搜图结果无图片等情况时，请先检查gocq、cqps的日志再去cqps仓库发起discuss"
     ;;
     2)
     #No
@@ -78,6 +79,7 @@ network() {  #网络连通性
         echoYES2
         giturl="hub.fastgit.org"
         yarnsource="ALI"
+        echoE ${FBCYAN} "出现无法搜图、搜图结果无图片等情况时，请先检查gocq、cqps的日志再去cqps仓库发起discuss"
     ;;
     esac
 }
@@ -98,7 +100,7 @@ nodejsIns() {    #nodejs安装
     sudo "${pac}" install -y nodejs
 }
 nodejsDL() {    #nodejs下载
-    nodejsver="v14.18.1"
+    nodejsver="v14.19.3"
     echoE ${FBMAGENTA} "开始安装node-${nodejsver}-linux-${1}"
     mkdir "${shloc}/cqps.sh.download/"
     wget -P "${shloc}/cqps.sh.download/" "https://nodejs.org/dist/${nodejsver}/node-${nodejsver}-linux-${1}.tar.xz"
@@ -219,17 +221,19 @@ if
 then
     #判断权限
     rootornot="$(id | awk '{print $1}')"
+    checkfile="${shloc}/cq-picsearcher-bot/"
     clear
     if
         [[ "${rootornot}" = *"id=0"*"root"* ]];
     then
         echoE ${FBGREEN} "root"
     else
-        echoE ${FBYELLOW} "建议以root身份执行该脚本"
+        echoE ${FBYELLOW} "安装时建议以root身份执行该脚本"
     fi
+    echoE ${lctime}
     echoE "------------------------------------------------"
     echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-    echoE "更新时间 2021/2/14-Mon"
+    echoE "更新时间 2022/2/14-Mon"
     echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
     echoE "------------------------------------------------"
     echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
@@ -256,7 +260,11 @@ then
     echoE ${FBCYAN} "  15.  其他选项"
     echoE ${FBCYAN} "  16.  显示项目信息"
     echoE "------------------------------------------------"
-    echoE ""
+    if
+        test -d "${checkfile}"
+    then
+        pm2 list
+    fi
     readP "Type in the number to choose: " choosen
 else
     if
