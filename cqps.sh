@@ -233,7 +233,7 @@ then
     echoE ${lctime}
     echoE "------------------------------------------------"
     echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-    echoE "更新时间 2022/2/14-Mon"
+    echoE "更新时间 2022/5/21-Sat"
     echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
     echoE "------------------------------------------------"
     echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
@@ -245,7 +245,7 @@ then
     echoE ${FBCYAN} "  5.   ${FBYELLOW}查看go-cqhttp${FBYELLOW}最新日志"
     echoE ${FBCYAN} "  6.   ${FBYELLOW}查看CQPS${FBYELLOW}     最新日志"
     echoE ${FBLACK} "------------------------------------------------"
-    echoE ${FBCYAN} "  7.   ${FBMAGENTA}${FAINT}更新go-cqhttp"
+    echoE ${FBCYAN} "  7.   ${FBMAGENTA}更新go-cqhttp"
     echoE ${FBCYAN} "  8.   ${FBMAGENTA}更新CQPS"
     echoE ${FBLACK} "------------------------------------------------"
     echoE ${FBCYAN} "  9.   ${FBBLUE}设置go-cqhttp crontab@reboot${FBBLUE}自启"
@@ -378,13 +378,28 @@ case "${choosen}" in
 ;;
 7)
 #更新go-cqhttp
-    echoE ${FBCYAN} "https://github.com/Mrs4s/go-cqhttp/releases"
-    echoE ${FBCYAN} "手动更新"
-    echoE ""
-    echoE ${FBCYAN} "或"
-    echoE ""
-    echoE ${FBCYAN} "https://github.com/Miuzarte/cq-picsearcher-bot-deployment/releases"
-    echoE ${FBCYAN} "等待同步"
+    #判断go-cqhttp进程是否存在
+    gcpc="$(ps -ef | grep -w go-cqhttp | grep -v grep | wc -l)"
+    if
+        [ "${gcpc}" = "0" ]
+    then
+        ./go-cqhttp update
+    else
+        echoE ${FBMAGENTA} "更新go-cqhttp"
+        agmwait
+        killall "go-cqhttp"
+        screen -S "${scrn}" -X quit
+        ./go-cqhttp update
+        echoE ${FBMAGENTA} "启动go-cqhttp"
+        agmwait
+        screen -S "${scrn}" -X quit
+        screen -dmS "${scrn}"
+        screen -x -S "${scrn}" -p 0 -X stuff "cd ${shloc}/go-cqhttp/"
+        screen -x -S "${scrn}" -p 0 -X stuff '\n'
+        screen -x -S "${scrn}" -p 0 -X stuff "./go-cqhttp faststart"
+        screen -x -S "${scrn}" -p 0 -X stuff '\n'
+        echoE ${FBMAGENTA} "已创建名为${scrn}${FBMAGENTA}的screen实例并启动go-cqhttp"
+    fi
 ;;
 8)
 #更新CQPS
@@ -576,6 +591,27 @@ case "${choosen}" in
         echoE ${FBGREEN} "// 单位天，设置为 0 表示永久保留"
         readP "log-aging: " input
         sed -i 's|log-aging: .*|log-aging: '"${input}"'|' "${shloc}/go-cqhttp/config.yml"
+        #ffmpeg
+        echoE ${FBCYAN} "是否安装ffmpeg"
+        echoE ${FBCYAN} "用于发送番剧预览等视频文件"
+        echoE ${FBCYAN} "  1.   Yes"
+        echoE ${FBCYAN} "  2.   No"
+        readP "Type in the number to choose: " choosen
+        case "${choosen}" in
+        1)
+        #Yes
+            echoYES1
+            sudo "${pac}" install -y ffmpeg
+        ;;
+        2)
+        #No
+            echoNO1
+        ;;
+        3)
+        #Default
+            echoNO2
+        ;;
+        esac
         echoDONE
     ;;
     2)
