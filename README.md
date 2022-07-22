@@ -26,4 +26,6 @@ __[[github]](https://github.com/Tsuk1ko/cq-picsearcher-bot) [[wiki]](https://git
 
 Windows sub Linux一代实测可用, 二代虚拟化更不可能有问题
 
-更新随缘，理论上是不会停更
+~~更新随缘，理论上是不会停更~~
+
+停更了喵，回到了Windows的怀抱，看看哪天有空折腾个powershell的版本出来
