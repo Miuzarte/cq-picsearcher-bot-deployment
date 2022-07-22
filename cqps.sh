@@ -84,7 +84,7 @@ network() {  #网络连通性
     esac
 }
 gocqDL() {  #go-cqhttp下载
-    gocqver="v1.0.0-rc1"
+    gocqver="v1.0.0-rc3"
     echoE ${FBMAGENTA} "开始部署go-cqhttp_linux_${1}"
     mkdir "${shloc}/cqps.sh.download/"
     wget -P "${shloc}/cqps.sh.download/" "https://${giturl}//Mrs4s/go-cqhttp/releases/download/${gocqver}/go-cqhttp_linux_${1}.tar.gz"
@@ -100,7 +100,7 @@ nodejsIns() {    #nodejs安装
     sudo "${pac}" install -y nodejs
 }
 nodejsDL() {    #nodejs下载
-    nodejsver="v14.19.3"
+    nodejsver="v14.20.0"
     echoE ${FBMAGENTA} "开始安装node-${nodejsver}-linux-${1}"
     mkdir "${shloc}/cqps.sh.download/"
     wget -P "${shloc}/cqps.sh.download/" "https://nodejs.org/dist/${nodejsver}/node-${nodejsver}-linux-${1}.tar.xz"
@@ -233,7 +233,7 @@ then
     echoE ${lctime}
     echoE "------------------------------------------------"
     echoE "cq-picsearcher-bot 懒人部署&管理脚本"
-    echoE "更新时间 2022/5/21-Sat"
+    echoE "更新时间 2022/7/22-Fri"
     echoE "https://github.com/Miuzarte/cq-picsearcher-bot-deployment"
     echoE "------------------------------------------------"
     echoE ${FBCYAN} "  1.   ${FBGREEN}启动go-cqhttp"
