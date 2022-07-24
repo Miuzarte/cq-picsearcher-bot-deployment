@@ -299,9 +299,9 @@ case "${choosen}" in
 ;;
 2)
 #启动CQPS
+    cd "${shloc}/cq-picsearcher-bot/"
     echoE ${FBMAGENTA} "启动CQPS"
     agmwait
-    cd "${shloc}/cq-picsearcher-bot/"
     npm start
     echoDONE
 ;;
@@ -323,9 +323,9 @@ case "${choosen}" in
 ;;
 4)
 #关闭CQPS
+    cd "${shloc}/cq-picsearcher-bot/"
     echoE ${FBMAGENTA} "关闭CQPS"
     agmwait
-    cd "${shloc}/cq-picsearcher-bot/"
     npm stop
     echoDONE
 ;;
@@ -378,6 +378,7 @@ case "${choosen}" in
 ;;
 7)
 #更新go-cqhttp
+    cd "${shloc}/go-cqhttp/"
     #判断go-cqhttp进程是否存在
     gcpc="$(ps -ef | grep -w go-cqhttp | grep -v grep | wc -l)"
     if
